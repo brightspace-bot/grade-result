@@ -1,7 +1,7 @@
 {
-  "name": "@brightspace-ui-labs/d2l-grade-result",
+  "name": "@brightspace-ui-labs/grade-result",
   "description": "A web component used for rendering grades in Brightspace",
-  "repository": "https://github.com/BrightspaceUILabs/d2l-grade-result.git",
+  "repository": "https://github.com/BrightspaceUILabs/grade-result.git",
   "version": "1.0.0",
   "publishConfig": {
     "access": "public"
