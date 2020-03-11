@@ -20,7 +20,7 @@
 
 A web component used for rendering grades in Brightspace
 
-![demo screenshot](./docs/demo screenshot.png)
+![demo screenshot](./docs/demo_screenshot.png)
 
 ## Installation
 
