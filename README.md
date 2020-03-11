@@ -1,4 +1,4 @@
-# d2l-labs-d2l-grade-result
+# d2l-grade-result
 
 [![NPM version](https://img.shields.io/npm/v/@brightspace-ui-labs/d2l-grade-result.svg)](https://www.npmjs.org/package/@brightspace-ui-labs/d2l-grade-result)
 [![Dependabot badge](https://flat.badgen.net/dependabot/BrightspaceUILabs/d2l-grade-result?icon=dependabot)](https://app.dependabot.com/)
@@ -6,7 +6,7 @@
 
 > Note: this is a ["labs" component](https://github.com/BrightspaceUI/guide/wiki/Component-Tiers). While functional, these tasks are prerequisites to promotion to BrightspaceUI "official" status:
 >
-> - [ ] [Design organization buy-in](https://github.com/BrightspaceUI/guide/wiki/Before-you-build#working-with-design)
+> - [x] [Design organization buy-in](https://github.com/BrightspaceUI/guide/wiki/Before-you-build#working-with-design)
 > - [ ] [design.d2l entry](http://design.d2l/)
 > - [ ] [Architectural sign-off](https://github.com/BrightspaceUI/guide/wiki/Before-you-build#web-component-architecture)
 > - [ ] [Continuous integration](https://github.com/BrightspaceUI/guide/wiki/Testing#testing-continuously-with-travis-ci)
@@ -15,7 +15,7 @@
 > - [ ] [Accessibility tests](https://github.com/BrightspaceUI/guide/wiki/Testing#automated-accessibility-testing-with-axe)
 > - [ ] [Visual diff tests](https://github.com/BrightspaceUI/visual-diff)
 > - [ ] [Localization](https://github.com/BrightspaceUI/guide/wiki/Localization) with Serge (if applicable)
-> - [ ] Demo page
+> - [x] Demo page
 > - [ ] README documentation
 
 A web component used for rendering grades in Brightspace
@@ -34,7 +34,7 @@ npm install @brightspace-ui-labs/d2l-grade-result
 <script type="module">
     import '@brightspace-ui-labs/d2l-grade-result/d2l-grade-result.js';
 </script>
-<d2l-labs-d2l-grade-result>My element</d2l-labs-d2l-grade-result>
+<d2l-grade-result>My element</d2l-grade-result>
 ```
 
 ## Developing, Testing and Contributing
