@@ -17,4 +17,11 @@ after_success:
 env:
   global:
   - SAUCE_USERNAME: Desire2Learn
-
+deploy:
+  provider: npm
+  email: d2ltravisdeploy@d2l.com
+  api_key:
+    secure: BqP7PUmV5/SsQFaB6rtnx/yLizdJ7JRLGtUDS8RMsmMHl3s28srrRl10o30f6B55nHIONfujYddWjGJQCI1qjUNcrrB5dDs5QZ4ufYb0v0KwmhMGhOxgNyZqOkEyZ0SwR5jari5s4IS5xoG2UoEWEj0V/ij4OPj+KWpV6uxDWY+NCsc2+Ew3HoZA2lopOcr6N+iKDov4HcVZdwh51rNH9aG8XFHBMagndO5PP1lbovlP7/rQGBolgXjFIDvrI36YabxeUz7zofB2XnVJE7kDnCD4yig+kGmDNIWW1iHJb3YRlWuoeYgCvVBpliuRY2lQdPfJt5Q4xL5rJVw7drndT4FbVfa7ysKcNspsfcB3icVooXLjJGsnIAO96JjqPl56QKsYhEf3U2NQSXnekC1skE/SUy3HT781imiLC9oc/3R9pCA/YkJBlPJ7LFyef+p7QecTYGDPccH2n0s8iudv/0MHkU/wqL/3DkGk38UC9lNYoxAH5ddea1fvxbEBs8Gc40B0S+Vh9K0YO8z0qEbpjz4BjonCxpZ9YCJ2WX1JoFEZaFCRV0+TVdZa8Mq5zgwhTuPpXtpI52RbSoRo5Zrt/2RCEgvk9UgIc3E+OWatblLmw5uNREdN32ZwODMsQEaX2TVRRoEaQVdL9GIItWQ0RJ8kscs5Me05DreQgsR1MDQ=
+  on:
+    tags: true
+    repo: BrightspaceUILabs/grade-result

@@ -129,4 +129,4 @@ export class D2LGradeResultPresentational extends LitElement {
 	}
 }
 
-customElements.define('d2l-grade-result-presentational', D2LGradeResultPresentational);
+customElements.define('d2l-labs-d2l-grade-result-presentational', D2LGradeResultPresentational);

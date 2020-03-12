@@ -60,7 +60,7 @@ export class D2LGradeResult extends LitElement {
 	render() {
 		if (this._gradeType === GradeType.Number) {
 			return html`
-				<d2l-grade-result-presentational
+				<d2l-labs-d2l-grade-result-presentational
 					.gradeType=${this._gradeType}
 					labeltext=${this._labeltext}
 					scorenumerator=${this._scorenumerator}
@@ -75,11 +75,11 @@ export class D2LGradeResult extends LitElement {
 					@d2l-grade-result-reports-button-click=${this._handleReportsButtonClick}
 					@d2l-grade-result-manual-override-button-manual-override-click=${this._handleManualOverrideClick}
 					@d2l-grade-result-manual-override-button-manual-override-clear-click=${this._handleManualOverrideClearClick}
-				></d2l-grade-result-presentational>
+				></d2l-labs-d2l-grade-result-presentational>
 			`;
 		} else if (this._gradeType === GradeType.Letter) {
 			return html`
-				<d2l-grade-result-presentational
+				<d2l-labs-d2l-grade-result-presentational
 					.gradeType=${this._gradeType}
 					labeltext=${this._labeltext}
 					.letterGradeOptions=${this._letterGradeOptions}
@@ -96,7 +96,7 @@ export class D2LGradeResult extends LitElement {
 					@d2l-grade-result-letter-score-selected=${this._handleLetterGradeSelected}
 					@d2l-grade-result-manual-override-button-manual-override-click=${this._handleManualOverrideClick}
 					@d2l-grade-result-manual-override-button-manual-override-clear-click=${this._handleManualOverrideClearClick}
-				></d2l-grade-result-presentational>
+				></d2l-labs-d2l-grade-result-presentational>
 			`;
 		}
 	}
@@ -130,4 +130,4 @@ export class D2LGradeResult extends LitElement {
 	}
 }
 
-customElements.define('d2l-grade-result', D2LGradeResult);
+customElements.define('d2l-labs-d2l-grade-result', D2LGradeResult);
