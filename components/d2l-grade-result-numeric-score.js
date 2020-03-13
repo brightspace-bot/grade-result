@@ -51,6 +51,7 @@ export class D2LGradeResultNumericScore extends LitElement {
 					<div class="d2l-grade-result-numeric-score-score">
 						<d2l-input-text
 							type="number"
+							aria-label="Grade Score"
 							value="${this.scoreNumerator}"
 							min="0"
 							@change=${this._onGradeChange}

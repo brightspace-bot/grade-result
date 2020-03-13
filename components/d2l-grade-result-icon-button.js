@@ -8,7 +8,8 @@ export class D2LGradeResultIconButton extends LitElement {
 		return {
 			tooltipText: { type: String },
 			icon: { type: String },
-			_id: { type: String }
+			_id: { type: String },
+			ariaLabel: { type: String }
 		};
 	}
 
@@ -31,6 +32,7 @@ export class D2LGradeResultIconButton extends LitElement {
 					id="d2l-grade-result-icon-button-${this._id}"
 					icon=${this.icon}
 					@click=${this._onClick}
+					aria-label=${this.ariaLabel}
 				></d2l-button-icon>
 
 				${this.tooltipText ? html`
