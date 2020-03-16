@@ -78,8 +78,3 @@ All version changes should obey [semantic versioning](https://semver.org/) rules
 Include either `[increment major]`, `[increment minor]` or `[increment patch]` in your merge commit message to automatically increment the `package.json` version and create a tag.
 
 
-
-
-
-
-
