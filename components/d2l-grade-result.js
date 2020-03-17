@@ -1,7 +1,8 @@
 import { html, LitElement } from 'lit-element';
 import { GradeType } from './d2l-grade-result-presentational.js';
+import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
-export class D2LGradeResult extends LitElement {
+export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	static get properties() {
 		return {
 			href: { type: String },
@@ -23,15 +24,19 @@ export class D2LGradeResult extends LitElement {
 	}
 
 	static async getLocalizeResources(langs) {
-		const langResources = {
-			'en': { 'myLangTerm': 'I am a localized string!' }
-		};
+		for await (const lang of langs) {
+			let translations;
+			switch (lang) {
+				case 'en':
+					translations = await import('../locales/en.js');
+					break;
+			}
 
-		for (let i = 0; i < langs.length; i++) {
-			if (langResources[langs[i]]) {
+			if (translations && translations.val) {
+				console.log(translations.val);
 				return {
-					language: langs[i],
-					resources: langResources[langs[i]]
+					language: lang,
+					resources: translations.val
 				};
 			}
 		}
@@ -43,7 +48,7 @@ export class D2LGradeResult extends LitElement {
 		super();
 
 		this._gradeType = GradeType.Number;
-		this._labeltext = 'Overall Grade';
+		this._labeltext = '';
 		this._scorenumerator = 5;
 		this._scoredenominator = 20;
 		this._includeGradeButton = true;
@@ -62,7 +67,7 @@ export class D2LGradeResult extends LitElement {
 			return html`
 				<d2l-labs-d2l-grade-result-presentational
 					.gradeType=${this._gradeType}
-					labeltext=${this._labeltext}
+					labeltext=${this.localize('overallGrade')}
 					scorenumerator=${this._scorenumerator}
 					scoredenominator=${this._scoredenominator}
 					?includeGradeButton=${this._includeGradeButton}
@@ -81,7 +86,7 @@ export class D2LGradeResult extends LitElement {
 			return html`
 				<d2l-labs-d2l-grade-result-presentational
 					.gradeType=${this._gradeType}
-					labeltext=${this._labeltext}
+					labeltext=${this.localize('overallGrade')}
 					.letterGradeOptions=${this._letterGradeOptions}
 					selectedLetterGrade=${this._selectedLetterGrade}
 					gradebuttontooltip=${this._gradebuttontooltip}
