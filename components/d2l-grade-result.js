@@ -33,7 +33,6 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			}
 
 			if (translations && translations.val) {
-				console.log(translations.val);
 				return {
 					language: lang,
 					resources: translations.val
@@ -63,47 +62,29 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	}
 
 	render() {
-		if (this._gradeType === GradeType.Number) {
-			return html`
-				<d2l-labs-d2l-grade-result-presentational
-					.gradeType=${this._gradeType}
-					labeltext=${this.localize('overallGrade')}
-					scorenumerator=${this._scorenumerator}
-					scoredenominator=${this._scoredenominator}
-					?includeGradeButton=${this._includeGradeButton}
-					?includeReportsButton=${this._includeReportsButton}
-					gradebuttontooltip=${this._gradebuttontooltip}
-					reportsbuttontooltip=${this._reportsbuttontooltip}
-					?readOnly=${!this._doesUserHavePermissionToEvaluate}
-					@d2l-grade-result-grade-change=${this._handleGradeChange}
-					@d2l-grade-result-grade-button-click=${this._handleGradeButtonClick}
-					@d2l-grade-result-reports-button-click=${this._handleReportsButtonClick}
-					@d2l-grade-result-manual-override-button-manual-override-click=${this._handleManualOverrideClick}
-					@d2l-grade-result-manual-override-button-manual-override-clear-click=${this._handleManualOverrideClearClick}
-				></d2l-labs-d2l-grade-result-presentational>
-			`;
-		} else if (this._gradeType === GradeType.Letter) {
-			return html`
-				<d2l-labs-d2l-grade-result-presentational
-					.gradeType=${this._gradeType}
-					labeltext=${this.localize('overallGrade')}
-					.letterGradeOptions=${this._letterGradeOptions}
-					selectedLetterGrade=${this._selectedLetterGrade}
-					gradebuttontooltip=${this._gradebuttontooltip}
-					reportsbuttontooltip=${this._reportsbuttontooltip}
-					?includeGradeButton=${this._includeGradeButton}
-					?includeReportsButton=${this._includeReportsButton}
-					?readOnly=${!this._doesUserHavePermissionToEvaluate}
-					?isGradeAutoCompleted=${this._isGradeAutoCompleted}
-					?isManualOverrideActive=${this._isManualOverrideActive}
-					@d2l-grade-result-grade-button-click=${this._handleGradeButtonClick}
-					@d2l-grade-result-reports-button-click=${this._handleReportsButtonClick}
-					@d2l-grade-result-letter-score-selected=${this._handleLetterGradeSelected}
-					@d2l-grade-result-manual-override-button-manual-override-click=${this._handleManualOverrideClick}
-					@d2l-grade-result-manual-override-button-manual-override-clear-click=${this._handleManualOverrideClearClick}
-				></d2l-labs-d2l-grade-result-presentational>
-			`;
-		}
+		return html`
+			<d2l-labs-d2l-grade-result-presentational
+				.gradeType=${this._gradeType}
+				labeltext=${this.localize('overallGrade')}
+				scorenumerator=${this._scorenumerator}
+				scoredenominator=${this._scoredenominator}
+				.letterGradeOptions=${this._letterGradeOptions}
+				selectedLetterGrade=${this._selectedLetterGrade}
+				gradebuttontooltip=${this._gradebuttontooltip}
+				reportsbuttontooltip=${this._reportsbuttontooltip}
+				?includeGradeButton=${this._includeGradeButton}
+				?includeReportsButton=${this._includeReportsButton}
+				?readOnly=${!this._doesUserHavePermissionToEvaluate}
+				?isGradeAutoCompleted=${this._isGradeAutoCompleted}
+				?isManualOverrideActive=${this._isManualOverrideActive}
+				@d2l-grade-result-grade-change=${this._handleGradeChange}
+				@d2l-grade-result-letter-score-selected=${this._handleLetterGradeSelected}
+				@d2l-grade-result-grade-button-click=${this._handleGradeButtonClick}
+				@d2l-grade-result-reports-button-click=${this._handleReportsButtonClick}
+				@d2l-grade-result-manual-override-button-manual-override-click=${this._handleManualOverrideClick}
+				@d2l-grade-result-manual-override-button-manual-override-clear-click=${this._handleManualOverrideClearClick}
+			></d2l-labs-d2l-grade-result-presentational>
+		`;
 	}
 
 	_handleGradeChange(e) {
