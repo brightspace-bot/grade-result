@@ -18,7 +18,7 @@ script:
     npm run test:diff || travis_terminate 1;
   fi
 after_success:
-- frauci-update-version && export TRAVIS_TAG=$(frauci-get-version)
+- frauci-update-version -d=skip && export TRAVIS_TAG=$(frauci-get-version)
 deploy:
   provider: npm
   email: d2ltravisdeploy@d2l.com
