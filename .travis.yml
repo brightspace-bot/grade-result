@@ -12,11 +12,13 @@ script:
     echo "Not a pull request and/or no secure environment variables, running headless tests...";
     npm run test:headless || travis_terminate 1;
   fi
+- |
+  if [ $TRAVIS_SECURE_ENV_VARS == true ]; then
+    echo "Running visual difference tests...";
+    npm run test:diff || travis_terminate 1;
+  fi
 after_success:
-- frauci-update-version -d=skip && export TRAVIS_TAG=$(frauci-get-version)
-env:
-  global:
-  - SAUCE_USERNAME: Desire2Learn
+- frauci-update-version && export TRAVIS_TAG=$(frauci-get-version)
 deploy:
   provider: npm
   email: d2ltravisdeploy@d2l.com
@@ -25,3 +27,17 @@ deploy:
   on:
     tags: true
     repo: BrightspaceUILabs/grade-result
+env:
+  global: 
+  - SAUCE_USERNAME: Desire2Learn
+  - OWNER_NAME: BrightspaceUILabs
+  - REPO_NAME: grade-result
+  - DEFAULT_INCREMENT: patch
+  # GITHUB_RELEASE_TOKEN
+  - secure: "lqwf7rLEeqG9dzDivwd5BIGl7nNzk5ZKuQ5uozOdDzU2u+iT0YrPUl2Xqc2MA5Y5HSzjR+K1kuCe+JIK2rZKYf5rAp/fVbmejZg/ZP9N9oY401ADs2G7JrUFMItHUI4C5ivY1LDI1CgkSMJCkTHElU4RGTw4VdZ/dLAFxFqO+1PrOmXaoUXsMjDbvJ1lZvQwSXfR/lq0lNMPcTfYZn9qqic/X0LhgD2vl0vsFICOHT+XaXSppteeA0GoYQw+6J5IXt9M7BSx3hYm8gRHhlww2XaqQfxYQb2NlsVZixSPo6rWeYgU+bVMDErIaLwL3CbFxq/4p3i74CwNUt9il/0KzhPhj/0ipkzaWRO74Tbe0HmRQ6yee5joTuUcObzwi2VcIC44C+Reg+3ufehn3VadG4sj0rwkzoCirQ65DE8QUKjilI6zOqfZdq0VlyEO00+1WbeBb3MedO/2vJWuoQ+HWFKsjLZE405W1cNAB6y0HJ/h2QV6VGkEH7tp1O9CaPVdPvE1eTaZmthWiK9gmVdR8/DPYLErtIHAiNZ6gAxf0sa9NoTwZEsj8Tt0F7in1zc8cmhBNwPCpNmc7658GJLOHaluC98uOk7Ddj38Q2EEHUSzosCRR8CoplaqGdOXP8G33R4qvdvAjD374tjkm+XSeofjRl13SuqfLT6CIScRHrQ="
+  # VISUAL_DIFF_S3_ID
+  - secure: "PGRPUedmL/5Kz/gV425uNUZvMY+KLbLJv1nqSrK7ZWz2SjfEYOxoZCzkQSM3tPhpMOtZCCXQhkNI2FAvLKJOZyvwzl2TzoWTg/MRA0PFmpoSDHOXJzTjY405jn7RtyOFCnNPqQiEv2mEEZFdCAcRz8YUni2++QjqHCGNGa/BS2fthmq1F+FHOxqjH1XdZZO5apEKJQDiZB3IFTpIZerBKhsEEbdKDbcScdRmaPwMKTpmH/Ry78AmiZX/VBchBa6uKDwYDjLSR3QOOyuWQLys1XTmpQMwizjrzFIKAgrPumCZQ9RWvkpt90+v9UXmrMeS/qYyA8zLsamJb1J7gEb3RNYlHoxx2BgzxvazVqYbbj/UTTxGL1RVStVqGP5DxrgrqqjIJX82J0q820TLpmBxpxt7dP3hUwMZVQUeOvzb4A/HmHV9BsUis2xLcGSc0jAIw7BcrWKc+KqieT11fmACTfXTxEmRLxqC5tuSsr7lJ73XwFmJYYM66wsorDDFyzbLqumXqMIC6f0xKKfwXTdwVwTCwrHSK0txZNW2NbSjOwljq/zsuJ44g3fky3eNXizA8iTL24IuFs7dmuea35GWcoa/UD+FN//HNgCz9MJfZHMdFFmJq1g9Yw2zZVtaZFRHBK8/DmDsSJqvUkx3gLnGRGh35TZBRs8U/ie/7wKHqjk="
+  # VISUAL_DIFF_S3_SECRET
+  - secure: "YWPNhB1nFZYZNZMHGXyW5SjfRHqBEr80bojvZya59mOJIQBkLBWwR+L6T2d7q3TYNNJmYZJboBYl5LaxA1otQfWpF/KCJ41WMabwAMlgZTKqTY4Ie16Ihd1LU0HrIv7hpB21+/8Hqf1YlvXCFfRM4wOGHSeXrm6LTyc7+dUcj5rfqN1ZbgwcG2I9ep1FWEFDExVw5FJum8oEl9UOs3YmEamycV9U0qMYC/aR0RPuyHw+JNW8rFwAknzlSSWC7pdepuQ3Aj54LiK927axlXPrnYRkY0PYegayeLUNvgyf71dKxP2OnXDiFVxVriXl1rOHSZkDwfwwgeh2gqbYMWE6UjJpQaMgpPYiQVBiFhjG54mVWQiodn4+d/LLxDniepYAJ1XNlaoWB15X4sIxX2tUzbkfSMPCmbOo5rKB89RrN8vEGZni+8zbfKAiQ09PUZW4SCSzj7jdQ5DXTkiT+e20aAVNXywaKol+hHlFPFgjv9wDck22Q7bMty8aAv07M6jY6pE8w/AjEOxpyxJ04oBN8AwRf+6C8r4cRDM9SQj4YG56Csk1gKZhQ7N2e+zHcownTNPYhEuEG9tMSEx+TJQNOFbK/1uZYViKjeoe384ncRlf4lDl/qfEwlOkLXpHrC0yMLZ5CeEMDTDYK2tXfRU1MSlefcG/2IDK35tqVIa5vOc="
+  # SAUCE_ACCESS_KEY
+  - secure: "GJSIophSSqQJeLFOKlsPzKnoCQeBrFcZ2LoG9TuEEUxD4FMP4Y9QG8iNFOtQ+eKnUs5HFsiExGWhKQje0qKC0n9qPAit4EwHsxrCkiuwhk8VOqMGVrBqO6Picqvs11hihjK/w4z/8nTdC8Zg5xW4yXBS0xIMnQrBlyucL2J4kMUT+coIToW0AwUyM46ANoIIXZTFb/VXJIiE0ljCMhjjBJRtZeTbJzcxB1UFWnpF+cXX+yuZvKzGHiRgTJG4uepD6ptvndN6wf2BEoPK0Iag+vX8AzkGF89oH2asBdYmBplFEhJp+K3KZBWgeQaXx4ATZ31sA3SFgW/eyeknMCGZV2lfK713c79zGbSqeiYz5ddMHwA7Wh8YLmzz/zsCCbvTOfXZLnqxoOMwieoC2X6v4v/0xM8fnRGbwmmt8L9Y+Utg++LII59DgK75TFOM/pWt2VapnQPqxmuIX5zNVL+ZbK0gXJe9cswT3SrNntKkiRkdWdLM+FiKcn+SvsqjTu0or3TfiEDeZ/lyJhL9mjXPcB4EokBjJV7Nji9iyN0zEwzXK6rdm2YX/1XYVeVBDD7QZjY/6fmmcZMyzM81PuhmqdIFUmwP4JpaPq3jGn0GEYExVZxk0KKQkoXCsUos3G9lH6ZySUZ6sCsDE3JVJRhzZOTzdFn+G9W4sqirpZQTuhE="
