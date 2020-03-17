@@ -2,7 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/@brightspace-ui-labs/grade-result.svg)](https://www.npmjs.org/package/@brightspace-ui-labs/grade-result)
 [![Dependabot badge](https://flat.badgen.net/dependabot/BrightspaceUILabs/d2l-grade-result?icon=dependabot)](https://app.dependabot.com/)
-[![Build status](https://travis-ci.com/@brightspace-ui-labs/grade-result.svg?branch=master)](https://travis-ci.com/@brightspace-ui-labs/grade-result)
+[![Build status](https://travis-ci.com/github/BrightspaceUILabs/grade-result.svg?branch=master)](https://travis-ci.com/github/BrightspaceUILabs/grade-result)
 
 > Note: this is a ["labs" component](https://github.com/BrightspaceUI/guide/wiki/Component-Tiers). While functional, these tasks are prerequisites to promotion to BrightspaceUI "official" status:
 >
@@ -76,5 +76,11 @@ npm test
 All version changes should obey [semantic versioning](https://semver.org/) rules.
 
 Include either `[increment major]`, `[increment minor]` or `[increment patch]` in your merge commit message to automatically increment the `package.json` version and create a tag.
+
+
+
+
+
+
 
 
