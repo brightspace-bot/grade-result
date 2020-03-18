@@ -122,4 +122,70 @@ describe('d2l-labs-d2l-grade-result', () => {
 		await testDiff('#read-only-letter-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
 	});
 
+	/* --- AUTOGRADE PROVIDED --- */
+
+	it('autograde-provided-number-grade-basic-no-icons-manual-override-option', async function() {
+		await testDiff('#autograde-provided-number-grade-basic-no-icons-manual-override-option', this.test.fullTitle());
+	});
+
+	it('autograde-provided-number-grade-basic-icons-manual-override-option', async function() {
+		await testDiff('#autograde-provided-number-grade-basic-icons-manual-override-option', this.test.fullTitle());
+	});
+
+	it('autograde-provided-number-grade-basic-icons-tooltips-manual-override-option-grades', async function() {
+		await testDiff('#autograde-provided-number-grade-basic-icons-tooltips-manual-override-option', this.test.fullTitle(), true);
+	});
+
+	it('autograde-provided-number-grade-basic-icons-tooltips-manual-override-option-reports', async function() {
+		await testDiff('#autograde-provided-number-grade-basic-icons-tooltips-manual-override-option', this.test.fullTitle(), false, true);
+	});
+
+	it('autograde-provided-letter-grade-basic-no-icons-manual-override-option', async function() {
+		await testDiff('#autograde-provided-letter-grade-basic-no-icons-manual-override-option', this.test.fullTitle());
+	});
+
+	it('autograde-provided-letter-grade-basic-icons-manual-override-option', async function() {
+		await testDiff('#autograde-provided-letter-grade-basic-icons-manual-override-option', this.test.fullTitle());
+	});
+
+	it('autograde-provided-letter-grade-basic-icons-tooltips-manual-override-option-grades', async function() {
+		await testDiff('#autograde-provided-letter-grade-basic-icons-tooltips-manual-override-option', this.test.fullTitle(), true);
+	});
+
+	it('autograde-provided-letter-grade-basic-icons-tooltips-manual-override-option-reports', async function() {
+		await testDiff('#autograde-provided-letter-grade-basic-icons-tooltips-manual-override-option', this.test.fullTitle(), false, true);
+	});
+
+	it('autograde-provided-number-grade-basic-no-icons-clear-manual-override-option', async function() {
+		await testDiff('#autograde-provided-number-grade-basic-no-icons-clear-manual-override-option', this.test.fullTitle());
+	});
+
+	it('autograde-provided-number-grade-basic-icons-clear-manual-override-option', async function() {
+		await testDiff('#autograde-provided-number-grade-basic-icons-clear-manual-override-option', this.test.fullTitle());
+	});
+
+	it('autograde-provided-number-grade-basic-icons-tooltips-clear-manual-override-option-grades', async function() {
+		await testDiff('#autograde-provided-number-grade-basic-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), true);
+	});
+
+	it('autograde-provided-number-grade-basic-icons-tooltips-clear-manual-override-option-reports', async function() {
+		await testDiff('#autograde-provided-number-grade-basic-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), false, true);
+	});
+
+	it('autograde-provided-letter-grade-basic-no-icons-clear-manual-override-option', async function() {
+		await testDiff('#autograde-provided-letter-grade-basic-no-icons-clear-manual-override-option', this.test.fullTitle());
+	});
+
+	it('autograde-provided-letter-grade-basic-icons-clear-manual-override-option', async function() {
+		await testDiff('#autograde-provided-letter-grade-basic-icons-clear-manual-override-option', this.test.fullTitle());
+	});
+
+	it('autograde-provided-letter-grade-basic-icons-tooltips-clear-manual-override-option-grades', async function() {
+		await testDiff('#autograde-provided-letter-grade-basic-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), true);
+	});
+
+	it('autograde-provided-letter-grade-basic-icons-tooltips-clear-manual-override-option-reports', async function() {
+		await testDiff('#autograde-provided-letter-grade-basic-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), false, true);
+	});
+
 });
