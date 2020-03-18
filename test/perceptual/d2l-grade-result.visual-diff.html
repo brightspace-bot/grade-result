@@ -16,7 +16,7 @@
 				font-size: 20px;
 			}
 			div {
-				margin: 15px;
+				padding: 50px;
 			}
 		</style>
 	</head>
@@ -24,6 +24,8 @@
 			<div id="d2l-labs-d2l-grade-result">
 				<d2l-labs-d2l-grade-result></d2l-labs-d2l-grade-result>
 			</div>
+
+			<!-- WRITE ENABLED -->
 
 			<div id="write-enabled-number-grade-basic-no-icons">
 				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20"></d2l-labs-d2l-grade-result-presentational>
@@ -47,6 +49,32 @@
 			
 			<div id="write-enabled-letter-grade-basic-icons-tooltips">
 				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics"></d2l-labs-d2l-grade-result-presentational>
+			</div>
+
+			<!-- READ ONLY -->
+
+			<div id="read-only-number-grade-basic-no-icons">
+				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" readOnly></d2l-labs-d2l-grade-result-presentational>	
+			</div>
+			
+			<div id="read-only-number-grade-basic-icons">
+				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" includeGradeButton includeReportsButton readOnly></d2l-labs-d2l-grade-result-presentational>	
+			</div>
+			
+			<div id="read-only-number-grade-basic-icons-tooltips">
+				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics" readOnly></d2l-labs-d2l-grade-result-presentational>	
+			</div>
+			
+			<div id="read-only-letter-grade-basic-no-icons">
+				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" readOnly></d2l-labs-d2l-grade-result-presentational>	
+			</div>
+			
+			<div id="read-only-letter-grade-basic-icons">
+				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" includeGradeButton includeReportsButton readOnly></d2l-labs-d2l-grade-result-presentational>	
+			</div>
+			
+			<div id="read-only-letter-grade-basic-icons-tooltips">
+				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics" readOnly></d2l-labs-d2l-grade-result-presentational>	
 			</div>
 	</body>
 </html>

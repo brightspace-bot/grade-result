@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 const puppeteer = require('puppeteer');
 const VisualDiff = require('@brightspace-ui/visual-diff');
 
@@ -21,38 +22,104 @@ describe('d2l-labs-d2l-grade-result', () => {
 
 	after(() => browser.close());
 
-	const testVisualDifference = async(id) => {
+	async function focusGradesButton(id) {
+		await page.evaluate((id) => {
+			document
+				.querySelector(id)
+				.querySelector('d2l-labs-d2l-grade-result-presentational')
+				.shadowRoot.querySelector('d2l-grade-result-icon-button')
+				.shadowRoot.querySelector('d2l-button-icon')
+				.focus();
+		}, id);
+	}
+
+	async function focusReportsButton(id) {
+		await page.evaluate((id) => {
+			document
+				.querySelector(id)
+				.querySelector('d2l-labs-d2l-grade-result-presentational')
+				.shadowRoot.querySelectorAll('d2l-grade-result-icon-button')[1]
+				.shadowRoot.querySelector('d2l-button-icon')
+				.focus();
+		}, id);
+	}
+
+	async function testDiff(id, fullTitle, focusGrades = false, focusReports = false) {
 		const rect = await visualDiff.getRect(page, id);
-		const title = this.test.fullTitle();
-		await visualDiff.screenshotAndCompare(page, title, { clip: rect });
-	};
+		if (focusGrades) {
+			await focusGradesButton(id);
+		} else if (focusReports) {
+			await focusReportsButton(id);
+		}
+		await visualDiff.screenshotAndCompare(page, fullTitle, { clip: rect });
+	}
 
-	it('d2l-labs-d2l-grade-result', async() => {
-		testVisualDifference('#d2l-labs-d2l-grade-result');
+	/* --- WRITE ENABLED --- */
+
+	it('write-enabled-number-grade-basic-no-icons', async function() {
+		await testDiff('#write-enabled-number-grade-basic-no-icons', this.test.fullTitle());
 	});
 
-	it('write-enabled-number-grade-basic-no-icons', async() => {
-		testVisualDifference('#write-enabled-number-grade-basic-no-icons');
+	it('write-enabled-number-grade-basic-icons', async function() {
+		await testDiff('#write-enabled-number-grade-basic-icons', this.test.fullTitle());
 	});
 
-	it('write-enabled-number-grade-basic-icons', async() => {
-		testVisualDifference('#write-enabled-number-grade-basic-icons');
+	it('write-enabled-number-grade-basic-icons-tooltips-grade', async function() {
+		await testDiff('#write-enabled-number-grade-basic-icons-tooltips', this.test.fullTitle(), true);
 	});
 
-	it('write-enabled-number-grade-basic-icons-tooltips', async() => {
-		testVisualDifference('#write-enabled-number-grade-basic-icons-tooltips');
+	it('write-enabled-number-grade-basic-icons-tooltips-reports', async function() {
+		await testDiff('#write-enabled-number-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
 	});
 
-	it('write-enabled-letter-grade-basic-no-icons', async() => {
-		testVisualDifference('#write-enabled-letter-grade-basic-no-icons');
+	it('write-enabled-letter-grade-basic-no-icons', async function() {
+		await testDiff('#write-enabled-letter-grade-basic-no-icons', this.test.fullTitle());
 	});
 
-	it('write-enabled-letter-grade-basic-icons', async() => {
-		testVisualDifference('#write-enabled-letter-grade-basic-icons');
+	it('write-enabled-letter-grade-basic-icons', async function() {
+		await testDiff('#write-enabled-letter-grade-basic-icons', this.test.fullTitle());
 	});
 
-	it('write-enabled-letter-grade-basic-icons-tooltips', async() => {
-		testVisualDifference('#write-enabled-letter-grade-basic-icons-tooltips');
+	it('write-enabled-letter-grade-basic-icons-tooltips-grades', async function() {
+		await testDiff('#write-enabled-letter-grade-basic-icons-tooltips', this.test.fullTitle(), true);
+	});
+
+	it('write-enabled-letter-grade-basic-icons-tooltips-reports', async function() {
+		await testDiff('#write-enabled-letter-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
+	});
+
+	/* --- READ ONLY --- */
+
+	it('read-only-number-grade-basic-no-icons', async function() {
+		await testDiff('#read-only-number-grade-basic-no-icons', this.test.fullTitle());
+	});
+
+	it('read-only-number-grade-basic-icons', async function() {
+		await testDiff('#read-only-number-grade-basic-icons', this.test.fullTitle());
+	});
+
+	it('read-only-number-grade-basic-icons-tooltips-grades', async function() {
+		await testDiff('#read-only-number-grade-basic-icons-tooltips', this.test.fullTitle(), true);
+	});
+
+	it('read-only-number-grade-basic-icons-tooltips-reports', async function() {
+		await testDiff('#read-only-number-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
+	});
+
+	it('read-only-letter-grade-basic-no-icons', async function() {
+		await testDiff('#read-only-letter-grade-basic-no-icons', this.test.fullTitle());
+	});
+
+	it('read-only-letter-grade-basic-icons', async function() {
+		await testDiff('#read-only-letter-grade-basic-icons', this.test.fullTitle());
+	});
+
+	it('read-only-letter-grade-basic-icons-tooltips-grades', async function() {
+		await testDiff('#read-only-letter-grade-basic-icons-tooltips', this.test.fullTitle(), true);
+	});
+
+	it('read-only-letter-grade-basic-icons-tooltips-reports', async function() {
+		await testDiff('#read-only-letter-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
 	});
 
 });
