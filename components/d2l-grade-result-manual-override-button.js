@@ -1,7 +1,9 @@
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import { html, LitElement } from 'lit-element';
+import getLocalizationTranslations from './locale.js';
+import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
-export class D2LGradeResultManualOverrideButton extends LitElement {
+export class D2LGradeResultManualOverrideButton extends LocalizeMixin(LitElement) {
 
 	static get properties() {
 		return {
@@ -9,11 +11,15 @@ export class D2LGradeResultManualOverrideButton extends LitElement {
 		};
 	}
 
+	static async getLocalizeResources(langs) {
+		return await getLocalizationTranslations(langs);
+	}
+
 	render() {
 		if (this.isManualOverrideActive) {
 			return html`
 				<d2l-button-subtle
-					text="Clear Manual Override"
+					text=${this.localize('clearManualOverride')}
 					icon="tier1:close-default"
 					@click=${this._onManualOverrideClearClick}
 				></d2l-button-subtle>
@@ -21,7 +27,7 @@ export class D2LGradeResultManualOverrideButton extends LitElement {
 		} else {
 			return html`
 				<d2l-button-subtle
-					text="Manually Override Grade"
+					text=${this.localize('manuallyOverrideGrade')}
 					icon="tier1:edit"
 					@click=${this._onManualOverrideClick}
 				></d2l-button-subtle>

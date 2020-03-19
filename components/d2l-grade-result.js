@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit-element';
+import getLocalizationTranslations from './locale.js';
 import { GradeType } from './d2l-grade-result-presentational.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
@@ -24,23 +25,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	}
 
 	static async getLocalizeResources(langs) {
-		for await (const lang of langs) {
-			let translations;
-			switch (lang) {
-				case 'en':
-					translations = await import('../locales/en.js');
-					break;
-			}
-
-			if (translations && translations.val) {
-				return {
-					language: lang,
-					resources: translations.val
-				};
-			}
-		}
-
-		return null;
+		return await getLocalizationTranslations(langs);
 	}
 
 	constructor() {
