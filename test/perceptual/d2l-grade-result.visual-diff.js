@@ -56,136 +56,136 @@ describe('d2l-labs-d2l-grade-result', () => {
 
 	/* --- WRITE ENABLED --- */
 
-	it('write-enabled-number-grade-basic-no-icons', async function() {
-		await testDiff('#write-enabled-number-grade-basic-no-icons', this.test.fullTitle());
+	it('write-enabled-number-grade-no-icons', async function() {
+		await testDiff('#write-enabled-number-grade-no-icons', this.test.fullTitle());
 	});
 
-	it('write-enabled-number-grade-basic-icons', async function() {
-		await testDiff('#write-enabled-number-grade-basic-icons', this.test.fullTitle());
+	it('write-enabled-number-grade-icons', async function() {
+		await testDiff('#write-enabled-number-grade-icons', this.test.fullTitle());
 	});
 
-	it('write-enabled-number-grade-basic-icons-tooltips-grade', async function() {
-		await testDiff('#write-enabled-number-grade-basic-icons-tooltips', this.test.fullTitle(), true);
+	it('write-enabled-number-grade-icons-tooltips-grade', async function() {
+		await testDiff('#write-enabled-number-grade-icons-tooltips', this.test.fullTitle(), true);
 	});
 
-	it('write-enabled-number-grade-basic-icons-tooltips-reports', async function() {
-		await testDiff('#write-enabled-number-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
+	it('write-enabled-number-grade-icons-tooltips-reports', async function() {
+		await testDiff('#write-enabled-number-grade-icons-tooltips', this.test.fullTitle(), false, true);
 	});
 
-	it('write-enabled-letter-grade-basic-no-icons', async function() {
-		await testDiff('#write-enabled-letter-grade-basic-no-icons', this.test.fullTitle());
+	it('write-enabled-letter-grade-no-icons', async function() {
+		await testDiff('#write-enabled-letter-grade-no-icons', this.test.fullTitle());
 	});
 
-	it('write-enabled-letter-grade-basic-icons', async function() {
-		await testDiff('#write-enabled-letter-grade-basic-icons', this.test.fullTitle());
+	it('write-enabled-letter-grade-icons', async function() {
+		await testDiff('#write-enabled-letter-grade-icons', this.test.fullTitle());
 	});
 
-	it('write-enabled-letter-grade-basic-icons-tooltips-grades', async function() {
-		await testDiff('#write-enabled-letter-grade-basic-icons-tooltips', this.test.fullTitle(), true);
+	it('write-enabled-letter-grade-icons-tooltips-grades', async function() {
+		await testDiff('#write-enabled-letter-grade-icons-tooltips', this.test.fullTitle(), true);
 	});
 
-	it('write-enabled-letter-grade-basic-icons-tooltips-reports', async function() {
-		await testDiff('#write-enabled-letter-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
+	it('write-enabled-letter-grade-icons-tooltips-reports', async function() {
+		await testDiff('#write-enabled-letter-grade-icons-tooltips', this.test.fullTitle(), false, true);
 	});
 
 	/* --- READ ONLY --- */
 
-	it('read-only-number-grade-basic-no-icons', async function() {
-		await testDiff('#read-only-number-grade-basic-no-icons', this.test.fullTitle());
+	it('read-only-number-grade-no-icons', async function() {
+		await testDiff('#read-only-number-grade-no-icons', this.test.fullTitle());
 	});
 
-	it('read-only-number-grade-basic-icons', async function() {
-		await testDiff('#read-only-number-grade-basic-icons', this.test.fullTitle());
+	it('read-only-number-grade-icons', async function() {
+		await testDiff('#read-only-number-grade-icons', this.test.fullTitle());
 	});
 
-	it('read-only-number-grade-basic-icons-tooltips-grades', async function() {
-		await testDiff('#read-only-number-grade-basic-icons-tooltips', this.test.fullTitle(), true);
+	it('read-only-number-grade-icons-tooltips-grades', async function() {
+		await testDiff('#read-only-number-grade-icons-tooltips', this.test.fullTitle(), true);
 	});
 
-	it('read-only-number-grade-basic-icons-tooltips-reports', async function() {
-		await testDiff('#read-only-number-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
+	it('read-only-number-grade-icons-tooltips-reports', async function() {
+		await testDiff('#read-only-number-grade-icons-tooltips', this.test.fullTitle(), false, true);
 	});
 
-	it('read-only-letter-grade-basic-no-icons', async function() {
-		await testDiff('#read-only-letter-grade-basic-no-icons', this.test.fullTitle());
+	it('read-only-letter-grade-no-icons', async function() {
+		await testDiff('#read-only-letter-grade-no-icons', this.test.fullTitle());
 	});
 
-	it('read-only-letter-grade-basic-icons', async function() {
-		await testDiff('#read-only-letter-grade-basic-icons', this.test.fullTitle());
+	it('read-only-letter-grade-icons', async function() {
+		await testDiff('#read-only-letter-grade-icons', this.test.fullTitle());
 	});
 
-	it('read-only-letter-grade-basic-icons-tooltips-grades', async function() {
-		await testDiff('#read-only-letter-grade-basic-icons-tooltips', this.test.fullTitle(), true);
+	it('read-only-letter-grade-icons-tooltips-grades', async function() {
+		await testDiff('#read-only-letter-grade-icons-tooltips', this.test.fullTitle(), true);
 	});
 
-	it('read-only-letter-grade-basic-icons-tooltips-reports', async function() {
-		await testDiff('#read-only-letter-grade-basic-icons-tooltips', this.test.fullTitle(), false, true);
+	it('read-only-letter-grade-icons-tooltips-reports', async function() {
+		await testDiff('#read-only-letter-grade-icons-tooltips', this.test.fullTitle(), false, true);
 	});
 
 	/* --- AUTOGRADE PROVIDED --- */
 
-	it('autograde-provided-number-grade-basic-no-icons-manual-override-option', async function() {
-		await testDiff('#autograde-provided-number-grade-basic-no-icons-manual-override-option', this.test.fullTitle());
+	it('autograde-provided-number-grade-no-icons-manual-override-option', async function() {
+		await testDiff('#autograde-provided-number-grade-no-icons-manual-override-option', this.test.fullTitle());
 	});
 
-	it('autograde-provided-number-grade-basic-icons-manual-override-option', async function() {
-		await testDiff('#autograde-provided-number-grade-basic-icons-manual-override-option', this.test.fullTitle());
+	it('autograde-provided-number-grade-icons-manual-override-option', async function() {
+		await testDiff('#autograde-provided-number-grade-icons-manual-override-option', this.test.fullTitle());
 	});
 
-	it('autograde-provided-number-grade-basic-icons-tooltips-manual-override-option-grades', async function() {
-		await testDiff('#autograde-provided-number-grade-basic-icons-tooltips-manual-override-option', this.test.fullTitle(), true);
+	it('autograde-provided-number-grade-icons-tooltips-manual-override-option-grades', async function() {
+		await testDiff('#autograde-provided-number-grade-icons-tooltips-manual-override-option', this.test.fullTitle(), true);
 	});
 
-	it('autograde-provided-number-grade-basic-icons-tooltips-manual-override-option-reports', async function() {
-		await testDiff('#autograde-provided-number-grade-basic-icons-tooltips-manual-override-option', this.test.fullTitle(), false, true);
+	it('autograde-provided-number-grade-icons-tooltips-manual-override-option-reports', async function() {
+		await testDiff('#autograde-provided-number-grade-icons-tooltips-manual-override-option', this.test.fullTitle(), false, true);
 	});
 
-	it('autograde-provided-letter-grade-basic-no-icons-manual-override-option', async function() {
-		await testDiff('#autograde-provided-letter-grade-basic-no-icons-manual-override-option', this.test.fullTitle());
+	it('autograde-provided-letter-grade-no-icons-manual-override-option', async function() {
+		await testDiff('#autograde-provided-letter-grade-no-icons-manual-override-option', this.test.fullTitle());
 	});
 
-	it('autograde-provided-letter-grade-basic-icons-manual-override-option', async function() {
-		await testDiff('#autograde-provided-letter-grade-basic-icons-manual-override-option', this.test.fullTitle());
+	it('autograde-provided-letter-grade-icons-manual-override-option', async function() {
+		await testDiff('#autograde-provided-letter-grade-icons-manual-override-option', this.test.fullTitle());
 	});
 
-	it('autograde-provided-letter-grade-basic-icons-tooltips-manual-override-option-grades', async function() {
-		await testDiff('#autograde-provided-letter-grade-basic-icons-tooltips-manual-override-option', this.test.fullTitle(), true);
+	it('autograde-provided-letter-grade-icons-tooltips-manual-override-option-grades', async function() {
+		await testDiff('#autograde-provided-letter-grade-icons-tooltips-manual-override-option', this.test.fullTitle(), true);
 	});
 
-	it('autograde-provided-letter-grade-basic-icons-tooltips-manual-override-option-reports', async function() {
-		await testDiff('#autograde-provided-letter-grade-basic-icons-tooltips-manual-override-option', this.test.fullTitle(), false, true);
+	it('autograde-provided-letter-grade-icons-tooltips-manual-override-option-reports', async function() {
+		await testDiff('#autograde-provided-letter-grade-icons-tooltips-manual-override-option', this.test.fullTitle(), false, true);
 	});
 
-	it('autograde-provided-number-grade-basic-no-icons-clear-manual-override-option', async function() {
-		await testDiff('#autograde-provided-number-grade-basic-no-icons-clear-manual-override-option', this.test.fullTitle());
+	it('autograde-provided-number-grade-no-icons-clear-manual-override-option', async function() {
+		await testDiff('#autograde-provided-number-grade-no-icons-clear-manual-override-option', this.test.fullTitle());
 	});
 
-	it('autograde-provided-number-grade-basic-icons-clear-manual-override-option', async function() {
-		await testDiff('#autograde-provided-number-grade-basic-icons-clear-manual-override-option', this.test.fullTitle());
+	it('autograde-provided-number-grade-icons-clear-manual-override-option', async function() {
+		await testDiff('#autograde-provided-number-grade-icons-clear-manual-override-option', this.test.fullTitle());
 	});
 
-	it('autograde-provided-number-grade-basic-icons-tooltips-clear-manual-override-option-grades', async function() {
-		await testDiff('#autograde-provided-number-grade-basic-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), true);
+	it('autograde-provided-number-grade-icons-tooltips-clear-manual-override-option-grades', async function() {
+		await testDiff('#autograde-provided-number-grade-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), true);
 	});
 
-	it('autograde-provided-number-grade-basic-icons-tooltips-clear-manual-override-option-reports', async function() {
-		await testDiff('#autograde-provided-number-grade-basic-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), false, true);
+	it('autograde-provided-number-grade-icons-tooltips-clear-manual-override-option-reports', async function() {
+		await testDiff('#autograde-provided-number-grade-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), false, true);
 	});
 
-	it('autograde-provided-letter-grade-basic-no-icons-clear-manual-override-option', async function() {
-		await testDiff('#autograde-provided-letter-grade-basic-no-icons-clear-manual-override-option', this.test.fullTitle());
+	it('autograde-provided-letter-grade-no-icons-clear-manual-override-option', async function() {
+		await testDiff('#autograde-provided-letter-grade-no-icons-clear-manual-override-option', this.test.fullTitle());
 	});
 
-	it('autograde-provided-letter-grade-basic-icons-clear-manual-override-option', async function() {
-		await testDiff('#autograde-provided-letter-grade-basic-icons-clear-manual-override-option', this.test.fullTitle());
+	it('autograde-provided-letter-grade-icons-clear-manual-override-option', async function() {
+		await testDiff('#autograde-provided-letter-grade-icons-clear-manual-override-option', this.test.fullTitle());
 	});
 
-	it('autograde-provided-letter-grade-basic-icons-tooltips-clear-manual-override-option-grades', async function() {
-		await testDiff('#autograde-provided-letter-grade-basic-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), true);
+	it('autograde-provided-letter-grade-icons-tooltips-clear-manual-override-option-grades', async function() {
+		await testDiff('#autograde-provided-letter-grade-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), true);
 	});
 
-	it('autograde-provided-letter-grade-basic-icons-tooltips-clear-manual-override-option-reports', async function() {
-		await testDiff('#autograde-provided-letter-grade-basic-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), false, true);
+	it('autograde-provided-letter-grade-icons-tooltips-clear-manual-override-option-reports', async function() {
+		await testDiff('#autograde-provided-letter-grade-icons-tooltips-clear-manual-override-option', this.test.fullTitle(), false, true);
 	});
 
 });
