@@ -13,8 +13,8 @@
 > - [ ] [Cross-browser testing](https://github.com/BrightspaceUI/guide/wiki/Testing#cross-browser-testing-with-sauce-labs)
 > - [ ] [Unit tests](https://github.com/BrightspaceUI/guide/wiki/Testing#testing-with-polymer-test) (if applicable)
 > - [ ] [Accessibility tests](https://github.com/BrightspaceUI/guide/wiki/Testing#automated-accessibility-testing-with-axe)
-> - [ ] [Visual diff tests](https://github.com/BrightspaceUI/visual-diff)
-> - [x] [Localization](https://github.com/BrightspaceUI/guide/wiki/Localization) with Serge (if applicable)
+> - [x] [Visual diff tests](https://github.com/BrightspaceUI/visual-diff)
+> - [ ] [Localization](https://github.com/BrightspaceUI/guide/wiki/Localization) with Serge (if applicable)
 > - [x] Demo page
 > - [ ] README documentation
 

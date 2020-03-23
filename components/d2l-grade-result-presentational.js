@@ -62,12 +62,19 @@ export class D2LGradeResultPresentational extends LitElement {
 		}));
 	}
 
+	_isReadOnly() {
+		if (this.isGradeAutoCompleted && !this.isManualOverrideActive) {
+			return true;
+		}
+		return this.readOnly;
+	}
+
 	_getNumericScoreComponent() {
 		return html`
 			<d2l-grade-result-numeric-score
 				.scoreNumerator=${this.scoreNumerator}
 				.scoreDenominator=${this.scoreDenominator}
-				?readOnly=${this.readOnly}
+				?readOnly=${this._isReadOnly()}
 			></d2l-grade-result-numeric-score>
 		`;
 	}
@@ -77,7 +84,7 @@ export class D2LGradeResultPresentational extends LitElement {
 			<d2l-grade-result-letter-score
 				.availableOptions=${this.letterGradeOptions}
 				.selectedOption=${this.selectedLetterGrade}
-				?readOnly=${this.readOnly}
+				?readOnly=${this._isReadOnly()}
 			></d2l-grade-result-letter-score>
 		`;
 	}

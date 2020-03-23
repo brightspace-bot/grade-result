@@ -15,7 +15,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			_includeReportsButton: { type: Boolean },
 			_gradebuttontooltip: { type: String },
 			_reportsbuttontooltip: { type: String },
-			_doesUserHavePermissionToEvaluate: { type: Boolean },
+			_readOnly: { type: Boolean },
 			_gradeType: { type: String },
 			_letterGradeOptions: { type: Array },
 			_selectedLetterGrade: { type: String },
@@ -39,11 +39,13 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this._includeReportsButton = true;
 		this._gradebuttontooltip = 'Assignment 1 Grade Item Attached';
 		this._reportsbuttontooltip = 'Class and user statistics';
-		this._doesUserHavePermissionToEvaluate = true;
+		this._readOnly = false;
 		this._isGradeAutoCompleted = true;
 		this._isManualOverrideActive = false;
 		this._letterGradeOptions = ['A', 'B', 'C'];
 		this._selectedLetterGrade = 'C';
+
+		this.manuallyOverriddenGrade = undefined;
 	}
 
 	render() {
@@ -59,7 +61,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 				reportsbuttontooltip=${this._reportsbuttontooltip}
 				?includeGradeButton=${this._includeGradeButton}
 				?includeReportsButton=${this._includeReportsButton}
-				?readOnly=${!this._doesUserHavePermissionToEvaluate}
+				?readOnly=${this._readOnly}
 				?isGradeAutoCompleted=${this._isGradeAutoCompleted}
 				?isManualOverrideActive=${this._isManualOverrideActive}
 				@d2l-grade-result-grade-change=${this._handleGradeChange}
@@ -93,11 +95,23 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	_handleManualOverrideClick(e) {
 		console.log(e);
 		this._isManualOverrideActive = true;
+		if (this._gradeType === GradeType.Number && this._scoredenominator !== undefined) {
+			this.manuallyOverriddenGrade = this._scorenumerator;
+		} else if (this._gradeType === GradeType.Letter && this._selectedLetterGrade !== undefined) {
+			this.manuallyOverriddenGrade = this._selectedLetterGrade;
+		}
 	}
 
 	_handleManualOverrideClearClick(e) {
 		console.log(e);
 		this._isManualOverrideActive = false;
+		if (this.manuallyOverriddenGrade) {
+			if (this._gradeType === GradeType.Number) {
+				this._scorenumerator = this.manuallyOverriddenGrade;
+			} else if (this._gradeType === GradeType.Letter) {
+				this._selectedLetterGrade = this.manuallyOverriddenGrade;
+			}
+		}
 	}
 }
 
