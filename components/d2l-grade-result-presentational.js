@@ -1,15 +1,17 @@
 import './d2l-grade-result-icon-button.js';
 import './d2l-grade-result-numeric-score.js';
 import './d2l-grade-result-letter-score.js';
-import './d2l-grade-result-manual-override-button.js';
+import '@brightspace-ui/core/components/button/button-subtle.js';
 import { css, html, LitElement } from 'lit-element';
+import getLocalizationTranslations from './locale.js';
+import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
 export const GradeType = {
 	Letter: 'letter',
 	Number: 'number'
 };
 
-export class D2LGradeResultPresentational extends LitElement {
+export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 	static get properties() {
 		return {
 			gradeType: { type: String },
@@ -36,6 +38,9 @@ export class D2LGradeResultPresentational extends LitElement {
 				align-items: center;
 			}
 		`;
+	}
+	static async getLocalizeResources(langs) {
+		return await getLocalizationTranslations(langs);
 	}
 
 	constructor() {
@@ -99,6 +104,20 @@ export class D2LGradeResultPresentational extends LitElement {
 		}
 	}
 
+	_onManualOverrideClick() {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-click', {
+			composed: true,
+			bubbles: true
+		}));
+	}
+
+	_onManualOverrideClearClick() {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-clear-click', {
+			composed: true,
+			bubbles: true
+		}));
+	}
+
 	render() {
 		return html`
 			<span class="d2l-input-label">
@@ -130,9 +149,11 @@ export class D2LGradeResultPresentational extends LitElement {
 			</div>
 
 			${this.isGradeAutoCompleted ? html`
-				<d2l-grade-result-manual-override-button
-					?isManualOverrideActive=${this.isManualOverrideActive}
-				></d2l-grade-result-manual-override-button>
+				<d2l-button-subtle
+					text=${this.isManualOverrideActive ? this.localize('clearManualOverride') : this.localize('manuallyOverrideGrade')}
+					icon=${this.isManualOverrideActive ? 'tier1:close-default' : 'tier1:edit'}
+					@click=${this.isManualOverrideActive ? this._onManualOverrideClearClick : this._onManualOverrideClick}
+				></d2l-button-subtle>
 			` : html``}
 		`;
 	}
