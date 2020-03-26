@@ -5,7 +5,7 @@ const testDiff = require('./utils.js');
 
 describe('write enabled visual diff tests', () => {
 
-	const visualDiff = new VisualDiff('write-enabled', __dirname);
+	const visualDiff = new VisualDiff('d2l-grade-result-write-enabled', __dirname);
 
 	let browser, page;
 

@@ -5,7 +5,7 @@ const testDiff = require('./utils.js');
 
 describe('read only visual diff tests', () => {
 
-	const visualDiff = new VisualDiff('read-only', __dirname);
+	const visualDiff = new VisualDiff('d2l-grade-result-read-only', __dirname);
 
 	let browser, page;
 

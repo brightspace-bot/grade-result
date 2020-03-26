@@ -5,7 +5,7 @@ const testDiff = require('./utils.js');
 
 describe('autograde provided visual diff tests', () => {
 
-	const visualDiff = new VisualDiff('autograde-provided', __dirname);
+	const visualDiff = new VisualDiff('d2l-grade-result-autograde-provided', __dirname);
 
 	let browser, page;
 
