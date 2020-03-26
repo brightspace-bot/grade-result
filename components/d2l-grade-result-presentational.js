@@ -104,6 +104,32 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		}
 	}
 
+	_getManualOverrideButtonComponent() {
+		if (this.isGradeAutoCompleted) {
+			let text, icon, onClick;
+
+			if (this.isManualOverrideActive) {
+				text = this.localize('clearManualOverride');
+				icon = 'tier1:close-default';
+				onClick = this._onManualOverrideClearClick;
+			} else {
+				text = this.localize('manuallyOverrideGrade');
+				icon = 'tier1:edit';
+				onClick = this._onManualOverrideClick;
+			}
+
+			return html`
+				<d2l-button-subtle
+					text=${text}
+					icon=${icon}
+					@click=${onClick}
+				></d2l-button-subtle>
+			`;
+		}
+
+		return html``;
+	}
+
 	_onManualOverrideClick() {
 		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-click', {
 			composed: true,
@@ -148,13 +174,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 
 			</div>
 
-			${this.isGradeAutoCompleted ? html`
-				<d2l-button-subtle
-					text=${this.isManualOverrideActive ? this.localize('clearManualOverride') : this.localize('manuallyOverrideGrade')}
-					icon=${this.isManualOverrideActive ? 'tier1:close-default' : 'tier1:edit'}
-					@click=${this.isManualOverrideActive ? this._onManualOverrideClearClick : this._onManualOverrideClick}
-				></d2l-button-subtle>
-			` : html``}
+			${this._getManualOverrideButtonComponent()}
 		`;
 	}
 }
