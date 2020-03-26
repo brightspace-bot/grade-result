@@ -27,6 +27,11 @@ async function testDiff(visualDiff, page, id, fullTitle, focusGrades = false, fo
 	} else if (focusReports) {
 		await focusReportsButton(page, id);
 	}
+
+	if (focusGrades || focusReports) {
+		await new Promise((resolve) => setTimeout(resolve, 200));
+	}
+
 	await visualDiff.screenshotAndCompare(page, fullTitle, { clip: rect });
 }
 
