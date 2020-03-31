@@ -40,6 +40,7 @@
   "dependencies": {
     "@brightspace-ui/core": "^1",
     "@webcomponents/webcomponentsjs": "^2",
+    "d2l-fetch": "github:Brightspace/d2l-fetch#semver:^2",
     "d2l-tooltip": "github:BrightspaceUI/tooltip#semver:^3",
     "lit-element": "^2"
   }
