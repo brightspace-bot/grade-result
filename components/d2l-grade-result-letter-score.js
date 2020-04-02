@@ -36,9 +36,9 @@ export class D2LGradeResultLetterScore extends LitElement {
 	_renderOptions() {
 		return this.availableOptions.map((option) => {
 			if (this.selectedOption === option) {
-				return html`<option selected>${option}</option>`;
+				return html`<option selected value=${option}>${option}</option>`;
 			} else {
-				return html`<option>${option}</option>`;
+				return html`<option value=${option}>${option}</option>`;
 			}
 		});
 	}
