@@ -1,6 +1,6 @@
+import { Controller, GradeType } from './controller.js';
 import { html, LitElement } from 'lit-element';
 import getLocalizationTranslations from './locale.js';
-import { GradeType } from './controller.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
 export class D2LGradeResult extends LocalizeMixin(LitElement) {
@@ -8,19 +8,20 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		return {
 			href: { type: String },
 			token: { type: String },
-			_labeltext: { type: String },
-			_scorenumerator: { type: String },
-			_scoredenominator: { type: String },
+			_labelText: { type: String },
+			_scoreNumerator: { type: String },
+			_scoreDenominator: { type: String },
 			_includeGradeButton: { type: Boolean },
 			_includeReportsButton: { type: Boolean },
-			_gradebuttontooltip: { type: String },
-			_reportsbuttontooltip: { type: String },
+			_gradeButtonTooltip: { type: String },
+			_reportsButtonTooltip: { type: String },
 			_readOnly: { type: Boolean },
 			_gradeType: { type: String },
 			_letterGradeOptions: { type: Array },
 			_selectedLetterGrade: { type: String },
 			_isGradeAutoCompleted: { type: Boolean },
-			_isManualOverrideActive: { type: Boolean }
+			_isManualOverrideActive: { type: Boolean },
+			disableController: { type: Boolean }
 		};
 	}
 
@@ -31,34 +32,74 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	constructor() {
 		super();
 
-		this._gradeType = GradeType.Number;
-		this._labeltext = '';
-		this._scorenumerator = 5;
-		this._scoredenominator = 20;
-		this._includeGradeButton = true;
-		this._includeReportsButton = true;
-		this._gradebuttontooltip = 'Assignment 1 Grade Item Attached';
-		this._reportsbuttontooltip = 'Class and user statistics';
-		this._readOnly = false;
-		this._isGradeAutoCompleted = true;
-		this._isManualOverrideActive = false;
-		this._letterGradeOptions = ['A', 'B', 'C'];
-		this._selectedLetterGrade = 'C';
+		this.href = undefined;
+		this.token = undefined;
+		this.disableController = false;
 
+		this._readOnly = false;
+		this._labelText = '';
+
+		this._gradeType = GradeType.Number;
+		this._scoreNumerator = 0;
+		this._scoreDenominator = 0;
+		this._letterGradeOptions = [];
+		this._selectedLetterGrade = '';
+
+		// hard coded as disabled as not yet supported by API
+		this._includeGradeButton = false;
+		this._includeReportsButton = false;
+		this._gradeButtonTooltip = undefined;
+		this._reportsButtonTooltip = undefined;
 		this.manuallyOverriddenGrade = undefined;
+		this._isGradeAutoCompleted = false;
+		this._isManualOverrideActive = false;
+	}
+
+	async updated() {
+		super.updated();
+		if (this.href && this.token && !this.controller && !this.disableController) {
+			await this._initialize();
+		}
+	}
+
+	async _initialize() {
+		this.controller = new Controller(this.href, this.token);
+		const grade = await this.controller.requestGrade();
+		this._parseGrade(grade);
+	}
+
+	async _updateGrade() {
+		let updatedGrade;
+		if (this._gradeType === GradeType.Number) {
+			updatedGrade = await this.controller.updateGrade(this._scoreNumerator);
+		} else {
+			updatedGrade = await this.controller.updateGrade(this._selectedLetterGrade);
+		}
+		this._parseGrade(updatedGrade);
+	}
+
+	_parseGrade(grade) {
+		this._gradeType = grade.getScoreType();
+		if (grade.isNumberGrade()) {
+			this._scoreNumerator = grade.getScore();
+			this._scoreDenominator = grade.getScoreOutOf();
+		} else {
+			this._selectedLetterGrade = grade.getScore();
+			this._letterGradeOptions = grade.getScoreOutOf();
+		}
 	}
 
 	render() {
 		return html`
 			<d2l-labs-d2l-grade-result-presentational
 				.gradeType=${this._gradeType}
-				labeltext=${this.localize('overallGrade')}
-				scorenumerator=${this._scorenumerator}
-				scoredenominator=${this._scoredenominator}
+				labelText=${this.localize('overallGrade')}
+				scoreNumerator=${this._scoreNumerator}
+				scoreDenominator=${this._scoreDenominator}
 				.letterGradeOptions=${this._letterGradeOptions}
 				selectedLetterGrade=${this._selectedLetterGrade}
-				gradebuttontooltip=${this._gradebuttontooltip}
-				reportsbuttontooltip=${this._reportsbuttontooltip}
+				gradeButtonTooltip=${this._gradeButtonTooltip}
+				reportsButtonTooltip=${this._reportsButtonTooltip}
 				?includeGradeButton=${this._includeGradeButton}
 				?includeReportsButton=${this._includeReportsButton}
 				?readOnly=${this._readOnly}
@@ -76,7 +117,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 
 	_handleGradeChange(e) {
 		console.log(e);
-		this._scorenumerator = e.detail.value;
+		this._scoreNumerator = e.detail.value;
 	}
 
 	_handleGradeButtonClick(e) {
@@ -95,8 +136,8 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	_handleManualOverrideClick(e) {
 		console.log(e);
 		this._isManualOverrideActive = true;
-		if (this._gradeType === GradeType.Number && this._scoredenominator !== undefined) {
-			this.manuallyOverriddenGrade = this._scorenumerator;
+		if (this._gradeType === GradeType.Number && this._scoreDenominator !== undefined) {
+			this.manuallyOverriddenGrade = this._scoreNumerator;
 		} else if (this._gradeType === GradeType.Letter && this._selectedLetterGrade !== undefined) {
 			this.manuallyOverriddenGrade = this._selectedLetterGrade;
 		}
@@ -107,7 +148,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this._isManualOverrideActive = false;
 		if (this.manuallyOverriddenGrade) {
 			if (this._gradeType === GradeType.Number) {
-				this._scorenumerator = this.manuallyOverriddenGrade;
+				this._scoreNumerator = this.manuallyOverriddenGrade;
 			} else if (this._gradeType === GradeType.Letter) {
 				this._selectedLetterGrade = this.manuallyOverriddenGrade;
 			}

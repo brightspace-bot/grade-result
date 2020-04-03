@@ -6,12 +6,41 @@ export const GradeType = {
 };
 
 export class Grade {
-	constructor(outOf, scoreType, score, letterGrade, letterGradeOptions) {
-		this.outOf = outOf;
+	constructor(scoreType, score, outOf, letterGrade, letterGradeOptions) {
+
+		if (scoreType !== GradeType.Number && scoreType !== GradeType.Letter) {
+			throw new Error('Invalid scoreType given');
+		}
+
 		this.scoreType = scoreType;
-		this.score = score;
-		this.letterGrade = letterGrade;
-		this.letterGradeOptions = letterGradeOptions;
+
+		if (this.isNumberGrade()) {
+			if (!score || isNaN(score)) {
+				throw new Error('Invalid score provided');
+			}
+
+			if (!outOf || isNaN(outOf)) {
+				throw new Error('Invalid outOf provided');
+			}
+
+			this.score = score;
+			this.outOf = outOf;
+			this.letterGrade = null;
+			this.letterGradeOptions = null;
+		} else {
+			if (!letterGrade || typeof letterGrade !== 'string') {
+				throw new Error('Invalid letterGrade provided');
+			}
+
+			if (!letterGradeOptions || !(letterGradeOptions instanceof Array) || Object.keys(letterGradeOptions).length === 0) {
+				throw new Error('Invalid letterGradeOptions provided');
+			}
+
+			this.score = null;
+			this.outOf = null;
+			this.letterGrade = letterGrade;
+			this.letterGradeOptions = letterGradeOptions;
+		}
 	}
 
 	isLetterGrade() {
@@ -23,9 +52,7 @@ export class Grade {
 	}
 
 	getScoreType() {
-		if (this.isNumberGrade()) return GradeType.Number;
-		if (this.isLetterGrade()) return GradeType.Letter;
-		throw new Error('Invalid Grade Type found.');
+		return this.isNumberGrade() ? GradeType.Number : GradeType.Letter;
 	}
 
 	getScore() {
@@ -34,7 +61,7 @@ export class Grade {
 		} else if (this.isLetterGrade() && this.letterGrade) {
 			return this.letterGrade;
 		} else {
-			throw new Error('Unable to parse the score.');
+			throw new Error('Unable to parse the score');
 		}
 	}
 
@@ -44,7 +71,7 @@ export class Grade {
 		} else if (this.isLetterGrade() && this.letterGradeOptions) {
 			return this.letterGradeOptions;
 		} else {
-			throw new Error('Unable to parse the score outOf.');
+			throw new Error('Unable to parse the score outOf');
 		}
 	}
 }
@@ -75,17 +102,14 @@ export class Controller {
 		}
 
 		const request = new Request(href, options);
-		// console.log('request', href, options);
 		const response = await d2lfetch.fetch(request);
-		// console.log('response', response);
 		const json = await response.json();
-		// console.log('json', json);
 		return json;
 	}
 
 	_parseProperties(properties) {
 		const { outOf, scoreType, score, letterGrade, letterGradeOptions } = properties;
-		return new Grade(outOf, scoreType, score, letterGrade, letterGradeOptions);
+		return new Grade(scoreType, score, outOf, letterGrade, letterGradeOptions);
 	}
 
 	async requestGrade() {

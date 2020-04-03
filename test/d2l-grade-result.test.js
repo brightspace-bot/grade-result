@@ -5,7 +5,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 
 const componentManualOverride = html`
 	<d2l-labs-d2l-grade-result-presentational
-		gradeType="number"
+		gradeType="Numeric"
 		labelText="Overall Grade"
 		scoreNumerator="5"
 		scoreDenominator="20"
@@ -19,7 +19,7 @@ const componentManualOverride = html`
 
 const componentManualOverrideClear = html`
 	<d2l-labs-d2l-grade-result-presentational
-		gradeType="number"
+		gradeType="Numeric"
 		labelText="Overall Grade"
 		scoreNumerator="5"
 		scoreDenominator="20"
@@ -34,7 +34,7 @@ const componentManualOverrideClear = html`
 
 const componentNumericScore = html`
 	<d2l-labs-d2l-grade-result-presentational
-		gradeType="number"
+		gradeType="Numeric"
 		labelText="Overall Grade"
 		scoreNumerator="5"
 		scoreDenominator="20"
@@ -43,7 +43,7 @@ const componentNumericScore = html`
 
 const componentLetterScore = html`
 	<d2l-labs-d2l-grade-result-presentational
-		gradeType="letter"
+		gradeType="LetterGrade"
 		labelText="Overall Grade"
 		.letterGradeOptions=${['A', 'B', 'C']}
 		selectedLetterGrade="C"
