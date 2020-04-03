@@ -1,11 +1,13 @@
 import './d2l-grade-result-icon-button.js';
 import './d2l-grade-result-numeric-score.js';
 import './d2l-grade-result-letter-score.js';
-import './d2l-grade-result-manual-override-button.js';
+import '@brightspace-ui/core/components/button/button-subtle.js';
 import { css, html, LitElement } from 'lit-element';
+import getLocalizationTranslations from './locale.js';
 import { GradeType } from './controller.js';
+import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
-export class D2LGradeResultPresentational extends LitElement {
+export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 	static get properties() {
 		return {
 			gradeType: { type: String },
@@ -32,6 +34,9 @@ export class D2LGradeResultPresentational extends LitElement {
 				align-items: center;
 			}
 		`;
+	}
+	static async getLocalizeResources(langs) {
+		return await getLocalizationTranslations(langs);
 	}
 
 	constructor() {
@@ -95,6 +100,46 @@ export class D2LGradeResultPresentational extends LitElement {
 		}
 	}
 
+	_getManualOverrideButtonComponent() {
+		if (this.isGradeAutoCompleted) {
+			let text, icon, onClick;
+
+			if (this.isManualOverrideActive) {
+				text = this.localize('clearManualOverride');
+				icon = 'tier1:close-default';
+				onClick = this._onManualOverrideClearClick;
+			} else {
+				text = this.localize('manuallyOverrideGrade');
+				icon = 'tier1:edit';
+				onClick = this._onManualOverrideClick;
+			}
+
+			return html`
+				<d2l-button-subtle
+					text=${text}
+					icon=${icon}
+					@click=${onClick}
+				></d2l-button-subtle>
+			`;
+		}
+
+		return html``;
+	}
+
+	_onManualOverrideClick() {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-click', {
+			composed: true,
+			bubbles: true
+		}));
+	}
+
+	_onManualOverrideClearClick() {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-clear-click', {
+			composed: true,
+			bubbles: true
+		}));
+	}
+
 	render() {
 		return html`
 			<span class="d2l-input-label">
@@ -125,11 +170,7 @@ export class D2LGradeResultPresentational extends LitElement {
 
 			</div>
 
-			${this.isGradeAutoCompleted ? html`
-				<d2l-grade-result-manual-override-button
-					?isManualOverrideActive=${this.isManualOverrideActive}
-				></d2l-grade-result-manual-override-button>
-			` : html``}
+			${this._getManualOverrideButtonComponent()}
 		`;
 	}
 }

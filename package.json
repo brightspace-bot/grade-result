@@ -2,7 +2,7 @@
   "name": "@brightspace-ui-labs/grade-result",
   "description": "A web component used for rendering grades in Brightspace",
   "repository": "https://github.com/BrightspaceUILabs/grade-result.git",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publishConfig": {
     "access": "public"
   },
@@ -16,6 +16,7 @@
     "test:diff:golden": "mocha ./**/*.visual-diff.js -t 40000 --golden",
     "test:diff:golden:commit": "commit-goldens",
     "test:headless": "karma start",
+    "test:headless:watch": "karma start --auto-watch=true --single-run=false",
     "test:sauce": "karma start karma.sauce.conf.js"
   },
   "author": "D2L Corporation",

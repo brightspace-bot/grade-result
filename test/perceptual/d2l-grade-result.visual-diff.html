@@ -17,6 +17,8 @@
 			}
 			div {
 				padding: 50px;
+				display: flex;
+				justify-content: center;
 			}
 		</style>
 	</head>
@@ -24,109 +26,5 @@
 			<div id="d2l-labs-d2l-grade-result">
 				<d2l-labs-d2l-grade-result></d2l-labs-d2l-grade-result>
 			</div>
-
-			<!-- WRITE ENABLED -->
-
-			<div id="write-enabled-number-grade-no-icons">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20"></d2l-labs-d2l-grade-result-presentational>
-			</div>
-			
-			<div id="write-enabled-number-grade-icons">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" includeGradeButton includeReportsButton></d2l-labs-d2l-grade-result-presentational>
-			</div>
-			
-			<div id="write-enabled-number-grade-icons-tooltips">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics"></d2l-labs-d2l-grade-result-presentational>
-			</div>
-			
-			<div id="write-enabled-letter-grade-no-icons">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C"></d2l-labs-d2l-grade-result-presentational>
-			</div>
-			
-			<div id="write-enabled-letter-grade-icons">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' includeGradeButton includeReportsButton></d2l-labs-d2l-grade-result-presentational>
-			</div>
-			
-			<div id="write-enabled-letter-grade-icons-tooltips">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics"></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<!-- READ ONLY -->
-
-			<div id="read-only-number-grade-no-icons">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" readOnly></d2l-labs-d2l-grade-result-presentational>	
-			</div>
-			
-			<div id="read-only-number-grade-icons">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" includeGradeButton includeReportsButton readOnly></d2l-labs-d2l-grade-result-presentational>	
-			</div>
-			
-			<div id="read-only-number-grade-icons-tooltips">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics" readOnly></d2l-labs-d2l-grade-result-presentational>	
-			</div>
-			
-			<div id="read-only-letter-grade-no-icons">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" readOnly></d2l-labs-d2l-grade-result-presentational>	
-			</div>
-			
-			<div id="read-only-letter-grade-icons">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" includeGradeButton includeReportsButton readOnly></d2l-labs-d2l-grade-result-presentational>	
-			</div>
-			
-			<div id="read-only-letter-grade-icons-tooltips">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics" readOnly></d2l-labs-d2l-grade-result-presentational>	
-			</div>
-
-			<!-- AUTOGRADE PROVIDED -->
-
-			<div id="autograde-provided-number-grade-no-icons-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" isGradeAutoCompleted></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-number-grade-icons-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" isGradeAutoCompleted includeGradeButton includeReportsButton></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-number-grade-icons-tooltips-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" isGradeAutoCompleted includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics"></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-letter-grade-no-icons-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" isGradeAutoCompleted></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-letter-grade-icons-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" isGradeAutoCompleted includeGradeButton includeReportsButton></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-letter-grade-icons-tooltips-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" isGradeAutoCompleted includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics"></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-number-grade-no-icons-clear-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" isGradeAutoCompleted isManualOverrideActive></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-number-grade-icons-clear-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" isGradeAutoCompleted isManualOverrideActive includeGradeButton includeReportsButton></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			here
-			<div id="autograde-provided-number-grade-icons-tooltips-clear-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="number" labelText="Overall Grade" scoreNumerator="5" scoreDenominator="20" isGradeAutoCompleted isManualOverrideActive includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics"></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-letter-grade-no-icons-clear-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" isGradeAutoCompleted isManualOverrideActive></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-letter-grade-icons-clear-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" isGradeAutoCompleted isManualOverrideActive includeGradeButton includeReportsButton></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
-			<div id="autograde-provided-letter-grade-icons-tooltips-clear-manual-override-option">
-				<d2l-labs-d2l-grade-result-presentational gradeType="letter" labelText="Overall Grade" letterGradeOptions='["A", "B", "C"]' selectedLetterGrade="C" isGradeAutoCompleted isManualOverrideActive includeGradeButton includeReportsButton gradeButtonTooltip="Assignment 1 Grade Item Attached" reportsButtonTooltip="Class and user statistics"></d2l-labs-d2l-grade-result-presentational>
-			</div>
-
 	</body>
 </html>
