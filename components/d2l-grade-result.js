@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit-element';
 import getLocalizationTranslations from './locale.js';
-import { GradeType } from './d2l-grade-result-presentational.js';
+import { GradeType } from './controller.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
 export class D2LGradeResult extends LocalizeMixin(LitElement) {

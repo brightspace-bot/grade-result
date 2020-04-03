@@ -3,11 +3,7 @@ import './d2l-grade-result-numeric-score.js';
 import './d2l-grade-result-letter-score.js';
 import './d2l-grade-result-manual-override-button.js';
 import { css, html, LitElement } from 'lit-element';
-
-export const GradeType = {
-	Letter: 'letter',
-	Number: 'number'
-};
+import { GradeType } from './controller.js';
 
 export class D2LGradeResultPresentational extends LitElement {
 	static get properties() {
