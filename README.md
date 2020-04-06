@@ -52,6 +52,32 @@ If you are only interested in rendering the presentational layer of the componen
 | isGradeAutoCompleted   | All         | `Boolean`             | `false`   | Set to `true` if a grade has been automatically provided for the activity. This will show the 'Manually Override Grade' button. |
 | isManualOverrideActive | All         | `Boolean`             | `false`   | Set to `true` is the user is currently manually overriding the grade. This will change the text of the manual override button to 'Clear Manual Override'. |
 
+## Events
+
+#### d2l-labs-d2l-grade-result
+
+| Event                                           | Description                                                  |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| `@d2l-grade-result-initialized-success`         | This event is fired when the component is successfully initialized and a grade is loaded from the API. |
+| `@d2l-grade-result-initialized-error`           | This event is fired when there is an error initializing the component. This is usually caused by an invalid `href` or `token`. |
+| `@d2l-grade-result-grade-updated-success`       | This event is fired when the grade is successfully updated on the server. |
+| `@d2l-grade-result-grade-updated-error`         | This event is fired when there is an error updating the grade. This is usually caused by an invalid `href` or `token`. |
+| `@d2l-grade-result-grade-button-click`          | This event is fired when the grades button is clicked.       |
+| `@d2l-grade-result-reports-button-click`        | This event is fired when the reports button is clicked.      |
+| `@d2l-grade-result-manual-override-click`       | This event is fired when the manual override button is clicked. |
+| `@d2l-grade-result-manual-override-clear-click` | This event is fired when the manual override clear is clicked. |
+
+#### d2l-grade-result-presentational
+
+| Event                                           | Description                                                  |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| `@d2l-grade-result-grade-button-click`          | This event is fired when the grades button is clicked.       |
+| `@d2l-grade-result-reports-button-click`        | This event is fired when the reports button is clicked.      |
+| `@d2l-grade-result-grade-change`                | This event is fired on the change of the grade for a `gradeType="Numeric"` grade. |
+| `@d2l-grade-result-letter-score-selected`       | This event is fired on the change of the grade for a `gradeType="LetterGrade"` grade. |
+| `@d2l-grade-result-manual-override-click`       | This event is fired when the manual override button is clicked. |
+| `@d2l-grade-result-manual-override-clear-click` | This event is fired when the manual override clear is clicked. |
+
 ## Installation
 
 To install from NPM:

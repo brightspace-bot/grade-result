@@ -60,12 +60,12 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			try {
 				this.controller = new Controller(this.href, this.token);
 				await this._requestGrade();
-				this.dispatchEvent(new CustomEvent('d2l-grade-result-intitialized-success', {
+				this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-success', {
 					composed: true,
 					bubbles: true
 				}));
 			} catch (e) {
-				this.dispatchEvent(new CustomEvent('d2l-grade-result-intitialized-error', {
+				this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-error', {
 					composed: true,
 					bubbles: true,
 					detail: {
@@ -148,17 +148,6 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 				}
 			}));
 		}
-	}
-
-	// document but can be deleted
-	// @d2l-grade-result-grade-button-click=${this._handleGradeButtonClick}
-	// @d2l-grade-result-reports-button-click=${this._handleReportsButtonClick}
-	_handleGradeButtonClick(e) {
-		console.log(e);
-	}
-
-	_handleReportsButtonClick(e) {
-		console.log(e);
 	}
 
 	_handleManualOverrideClick() {

@@ -1,6 +1,6 @@
 /* eslint-disable prefer-arrow-callback */
 import '../d2l-grade-result.js';
-import '../components/d2l-grade-result-presentational.js';
+import '../src/components/d2l-grade-result-presentational.js';
 import { expect, fixture, html } from '@open-wc/testing';
 
 const componentManualOverride = html`
