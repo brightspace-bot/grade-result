@@ -15,6 +15,7 @@ describe('autograde provided visual diff tests', () => {
 		await page.setViewport({width: 800, height: 800, deviceScaleFactor: 2});
 		await page.goto(`${visualDiff.getBaseUrl()}/test/perceptual/d2l-grade-result-autograde-provided.visual-diff.html`, {waitUntil: ['networkidle0', 'load']});
 		await page.bringToFront();
+		await visualDiff.disableAnimations(page);
 	});
 
 	beforeEach(async() => {
