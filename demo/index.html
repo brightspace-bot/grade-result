@@ -27,11 +27,48 @@
 	<body class="d2l-typography">
 		<d2l-demo-page page-title="d2l-grade-result">
 
+			<script type="module">
+				import { html, LitElement } from 'lit-element';
+
+				export class ComponentDemo extends LitElement {
+					onInitializedSuccess(e) {
+						console.log('initialized success', e);
+					}
+
+					onInitializedError(e) {
+						console.log('initialized error', e);
+					}
+
+					onGradeUpdatedSuccess(e) {
+						console.log('grade updated success', e);
+					}
+
+					onGradeUpdatedError(e) {
+						console.log('grade updated error', e);
+					}
+
+					render() {
+						return html`
+							<d2l-labs-d2l-grade-result
+								href="https://648df3aa-e573-4c44-b34b-856c0523e9d5.activities.api.proddev.d2l/activities/6606_3000_2/usages/6609/users/178/grade"
+								token="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ijg5ZmU2ZDcwLTMxZmEtNGM0YS05NGNmLTA4OTY1ZWZmNmVjMSJ9.eyJzdWIiOiIxNzciLCJ0ZW5hbnRpZCI6IjY0OGRmM2FhLWU1NzMtNGM0NC1iMzRiLTg1NmMwNTIzZTlkNSIsInNjb3BlIjoiKjoqOioiLCJqdGkiOiI2ZDU0NzNlOC0zNzFlLTQ1YmEtOTBjMS1iMmUxMDMxZTNiOTYiLCJpc3MiOiJodHRwczovL2FwaS5icmlnaHRzcGFjZS5jb20vYXV0aCIsImF1ZCI6Imh0dHBzOi8vYXBpLmJyaWdodHNwYWNlLmNvbS9hdXRoL3Rva2VuIiwiZXhwIjoxNTg2MjAyNzg5LCJuYmYiOjE1ODYxOTkxODl9.BVyB8EAk8UAfuwDkLNeqAdoc5knZdtOLzvdU4Hv5rctBsCzD1PZ72J484MolsLo7jdnkyNfO8o7sOZIdl3bgxLuC3qNfF_ho-qmCIYj3A3xIKx5uqj0tCoKaNk3t88MX930ZWUq16E3ZaerI1ViZkUWo-psncRMqMgiJ4-oToNOuD2xRBt6SMrPVgRcyCcBQOaRLEU5uIAwr8XVGNSWMl8TD9iLIhBqeoGtCUCI3uPQ5KTJODRTG1aNGDFZfYUo2BpLLkwTDd0dc2GPOpgUl2ppS75ba2GKVoOfnSNi9tNPelT8r9uHd3GLpM0Vd578oN5QlihcLXIbwP9GVUXK9Eg"
+								@d2l-grade-result-intitialized-success=${this.onInitializedSuccess}
+								@d2l-grade-result-intitialized-error=${this.onInitializedError}
+								@d2l-grade-result-grade-updated-success=${this.onGradeUpdatedSuccess}
+								@d2l-grade-result-grade-updated-error=${this.onGradeUpdatedError}
+							></d2l-labs-d2l-grade-result>
+						`;
+					}
+				}
+
+				customElements.define('component-demo', ComponentDemo);
+			</script>
+
 			<div class="section">
 				<h2>Top level web component</h2>
 
 				<d2l-demo-snippet>
-					<d2l-labs-d2l-grade-result href="href" token="token" disableController></d2l-labs-d2l-grade-result>
+					<component-demo></component-demo>
 				</d2l-demo-snippet>
 			</div>
 

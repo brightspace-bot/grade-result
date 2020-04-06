@@ -36,7 +36,7 @@ npm install @brightspace-ui-labs/d2l-grade-result
 <script type="module">
     import '@brightspace-ui-labs/d2l-grade-result/d2l-grade-result.js';
 </script>
-<d2l-grade-result>My element</d2l-grade-result>
+<d2l-grade-result href="href" token="token">My element</d2l-grade-result>
 ```
 
 ## Developing, Testing and Contributing

@@ -1,4 +1,4 @@
-import { Grade, GradeType } from '../components/controller.js';
+import { Grade, GradeType } from '../controller/Grade.js';
 import { assert } from '@open-wc/testing';
 
 describe('Grade class tests', () => {

@@ -115,7 +115,7 @@ describe('d2l-labs-d2l-grade-result', () => {
 	it('click manual override button event', async function() {
 		return new Promise((resolve, reject) => {
 			fixture(componentManualOverride).then(el => {
-				const event = 'd2l-grade-result-manual-override-button-manual-override-click';
+				const event = 'd2l-grade-result-manual-override-click';
 				el.addEventListener(event, resolve);
 				getManualOverrideButton(el).click();
 				setTimeout(() => reject(`timeout waiting for ${event} event`), eventTimeoutMS);
@@ -126,7 +126,7 @@ describe('d2l-labs-d2l-grade-result', () => {
 	it('click manual override clear button event', async function() {
 		return new Promise((resolve, reject) => {
 			fixture(componentManualOverrideClear).then(el => {
-				const event = 'd2l-grade-result-manual-override-button-manual-override-clear-click';
+				const event = 'd2l-grade-result-manual-override-clear-click';
 				el.addEventListener(event, resolve);
 				getManualOverrideButton(el).click();
 				setTimeout(() => reject(`timeout waiting for ${event} event`), eventTimeoutMS);

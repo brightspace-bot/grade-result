@@ -4,7 +4,7 @@ import './d2l-grade-result-letter-score.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import { css, html, LitElement } from 'lit-element';
 import getLocalizationTranslations from './locale.js';
-import { GradeType } from './controller.js';
+import { GradeType } from '../controller/Grade.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
 export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
@@ -127,14 +127,14 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 	}
 
 	_onManualOverrideClick() {
-		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-click', {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-click', {
 			composed: true,
 			bubbles: true
 		}));
 	}
 
 	_onManualOverrideClearClick() {
-		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-clear-click', {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-clear-click', {
 			composed: true,
 			bubbles: true
 		}));

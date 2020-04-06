@@ -1,6 +1,7 @@
-import { Controller, GradeType } from './controller.js';
 import { html, LitElement } from 'lit-element';
+import { Controller } from '../controller/GradesController.js';
 import getLocalizationTranslations from './locale.js';
+import { GradeType } from '../controller/Grade.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
 export class D2LGradeResult extends LocalizeMixin(LitElement) {
@@ -20,8 +21,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			_letterGradeOptions: { type: Array },
 			_selectedLetterGrade: { type: String },
 			_isGradeAutoCompleted: { type: Boolean },
-			_isManualOverrideActive: { type: Boolean },
-			disableController: { type: Boolean }
+			_isManualOverrideActive: { type: Boolean }
 		};
 	}
 
@@ -34,7 +34,6 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 
 		this.href = undefined;
 		this.token = undefined;
-		this.disableController = false;
 
 		this._readOnly = false;
 		this._labelText = '';
@@ -55,25 +54,41 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this._isManualOverrideActive = false;
 	}
 
-	async updated() {
-		super.updated();
-		if (this.href && this.token && !this.controller && !this.disableController) {
-			await this._initialize();
+	async firstUpdated() {
+		super.firstUpdated();
+		if (this.href && this.token && !this.controller) {
+			try {
+				this.controller = new Controller(this.href, this.token);
+				await this._requestGrade();
+				this.dispatchEvent(new CustomEvent('d2l-grade-result-intitialized-success', {
+					composed: true,
+					bubbles: true
+				}));
+			} catch (e) {
+				this.dispatchEvent(new CustomEvent('d2l-grade-result-intitialized-error', {
+					composed: true,
+					bubbles: true,
+					detail: {
+						error: e
+					}
+				}));
+			}
 		}
 	}
 
-	async _initialize() {
-		this.controller = new Controller(this.href, this.token);
+	async _requestGrade() {
 		const grade = await this.controller.requestGrade();
 		this._parseGrade(grade);
 	}
 
-	async _updateGrade() {
+	async _updateGrade(value) {
 		let updatedGrade;
 		if (this._gradeType === GradeType.Number) {
-			updatedGrade = await this.controller.updateGrade(this._scoreNumerator);
+			updatedGrade = await this.controller.updateGrade(value);
+			this._scoreNumerator = value;
 		} else {
-			updatedGrade = await this.controller.updateGrade(this._selectedLetterGrade);
+			updatedGrade = await this.controller.updateGrade(value);
+			this._selectedLetterGrade = value;
 		}
 		this._parseGrade(updatedGrade);
 	}
@@ -106,20 +121,38 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 				?isGradeAutoCompleted=${this._isGradeAutoCompleted}
 				?isManualOverrideActive=${this._isManualOverrideActive}
 				@d2l-grade-result-grade-change=${this._handleGradeChange}
-				@d2l-grade-result-letter-score-selected=${this._handleLetterGradeSelected}
-				@d2l-grade-result-grade-button-click=${this._handleGradeButtonClick}
-				@d2l-grade-result-reports-button-click=${this._handleReportsButtonClick}
-				@d2l-grade-result-manual-override-button-manual-override-click=${this._handleManualOverrideClick}
-				@d2l-grade-result-manual-override-button-manual-override-clear-click=${this._handleManualOverrideClearClick}
+				@d2l-grade-result-letter-score-selected=${this._handleGradeChange}
+				@d2l-grade-result-manual-override-click=${this._handleManualOverrideClick}
+				@d2l-grade-result-manual-override-clear-click=${this._handleManualOverrideClearClick}
 			></d2l-labs-d2l-grade-result-presentational>
 		`;
 	}
 
-	_handleGradeChange(e) {
-		console.log(e);
-		this._scoreNumerator = e.detail.value;
+	async _handleGradeChange(e) {
+		try {
+			const { value } = e.detail;
+			await this._updateGrade(value);
+			this.dispatchEvent(new CustomEvent('d2l-grade-result-grade-updated-success', {
+				composed: true,
+				bubbles: true,
+				detail: {
+					value
+				}
+			}));
+		} catch (e) {
+			this.dispatchEvent(new CustomEvent('d2l-grade-result-grade-updated-error', {
+				composed: true,
+				bubbles: true,
+				detail: {
+					error: e
+				}
+			}));
+		}
 	}
 
+	// document but can be deleted
+	// @d2l-grade-result-grade-button-click=${this._handleGradeButtonClick}
+	// @d2l-grade-result-reports-button-click=${this._handleReportsButtonClick}
 	_handleGradeButtonClick(e) {
 		console.log(e);
 	}
@@ -128,23 +161,20 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		console.log(e);
 	}
 
-	_handleLetterGradeSelected(e) {
-		console.log(e);
-		this._selectedLetterGrade = e.detail.option;
-	}
-
-	_handleManualOverrideClick(e) {
-		console.log(e);
+	_handleManualOverrideClick() {
 		this._isManualOverrideActive = true;
 		if (this._gradeType === GradeType.Number && this._scoreDenominator !== undefined) {
 			this.manuallyOverriddenGrade = this._scoreNumerator;
 		} else if (this._gradeType === GradeType.Letter && this._selectedLetterGrade !== undefined) {
 			this.manuallyOverriddenGrade = this._selectedLetterGrade;
 		}
+		this.dispatchEvent('d2l-grade-result-manual-override-click', {
+			composed: true,
+			bubbles: true
+		});
 	}
 
-	_handleManualOverrideClearClick(e) {
-		console.log(e);
+	_handleManualOverrideClearClick() {
 		this._isManualOverrideActive = false;
 		if (this.manuallyOverriddenGrade) {
 			if (this._gradeType === GradeType.Number) {
@@ -153,6 +183,10 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 				this._selectedLetterGrade = this.manuallyOverriddenGrade;
 			}
 		}
+		this.dispatchEvent('d2l-grade-result-manual-override-clear-click', {
+			composed: true,
+			bubbles: true
+		});
 	}
 }
 
