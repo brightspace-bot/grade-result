@@ -2,6 +2,7 @@
 import '../d2l-grade-result.js';
 import '../src/components/d2l-grade-result-presentational.js';
 import { expect, fixture, html } from '@open-wc/testing';
+import { getGradesButton, getLetterScore, getLetterScoreSelect, getManualOverrideButton, getNumericScore, getNumericScoreInput, getReportsButton } from './utils.js';
 
 const componentManualOverride = html`
 	<d2l-labs-d2l-grade-result-presentational
@@ -52,39 +53,7 @@ const componentLetterScore = html`
 
 const eventTimeoutMS = 10000;
 
-const getGradesButton = (el) => {
-	return el
-		.shadowRoot.querySelector('d2l-grade-result-icon-button')
-		.shadowRoot.querySelector('d2l-button-icon');
-};
-
-const getReportsButton = (el) => {
-	return el
-		.shadowRoot.querySelectorAll('d2l-grade-result-icon-button')[1]
-		.shadowRoot.querySelector('d2l-button-icon');
-};
-
-const getManualOverrideButton = (el) => {
-	return el.shadowRoot.querySelector('d2l-button-subtle');
-};
-
-const getNumericScore = (el) => {
-	return el.shadowRoot.querySelector('d2l-grade-result-numeric-score');
-};
-
-const getNumericScoreInput = (el) => {
-	return getNumericScore(el).shadowRoot.querySelector('d2l-input-text');
-};
-
-const getLetterScore = (el) => {
-	return el.shadowRoot.querySelector('d2l-grade-result-letter-score');
-};
-
-const getLetterScoreSelect = (el) => {
-	return getLetterScore(el).shadowRoot.querySelector('select');
-};
-
-describe('d2l-labs-d2l-grade-result', () => {
+describe('d2l-grade-result-presentational', () => {
 	it('should pass all axe tests', async function() {
 		const el = await fixture(html`<d2l-labs-d2l-grade-result></d2l-labs-d2l-grade-result>`);
 		await expect(el).to.be.accessible();

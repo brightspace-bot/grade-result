@@ -1,57 +1,82 @@
-import { BaseController } from './BaseController.js';
-import { Grade } from './Grade.js';
+import { ActivityGradeEntity } from 'siren-sdk/src/activities/ActivityGradeEntity.js';
+import { entityFactory } from 'siren-sdk/src/es6/EntityFactory.js';
+// import { Grade } from './Grade.js';
+// import SirenParse from 'siren-parser';
 
-export class Controller extends BaseController {
+export class GradesController {
 	constructor(baseHref, token) {
-		super();
+		if (!baseHref) {
+			throw new Error('baseHref was not defined when initializing GradesController');
+		}
+
+		if (!token) {
+			throw new Error('token was not defined when initializing GradesController');
+		}
+
 		this.baseHref = baseHref;
 		this.token = token;
 		this.saveGradeAction = undefined;
+		this.isEntitySubscribed = false;
 	}
 
-	_parseProperties(properties) {
-		const { scoreType, score, outOf, letterGrade, letterGradeOptions } = properties;
-		return new Grade(scoreType, score, outOf, letterGrade, letterGradeOptions);
+	// _parseGrade(entity) {
+	// 	if (!entity.properties) {
+	// 		throw new Error('Entity does not have properties attached to it.');
+	// 	}
+
+	// 	return new Grade(
+	// 		entity.properties.scoreType,
+	// 		entity.properties.score,
+	// 		entity.properties.outOf,
+	// 		entity.properties.letterGrade,
+	// 		entity.properties.letterGradeOptions
+	// 	);
+	// }
+
+	// _parseSaveGradeAction(entity) {
+	// 	const actionName = 'SaveGrade';
+
+	// 	if (!entity.hasActionByName(actionName)) {
+	// 		throw new Error('Could not find the SaveGrade action from entity.');
+	// 	}
+
+	// 	this.saveGradeAction = entity.getActionByName(actionName);
+	// }
+
+	requestGrade() {
+		return new Promise((resolve, reject) => {
+			entityFactory(ActivityGradeEntity, this.href, this.token, (entity, error) => {
+				if (error) reject(error);
+				resolve(entity);
+			});
+			setTimeout(() => reject('Request timed out'), 5000);
+		});
 	}
 
-	async requestGrade() {
-		let ret = undefined;
+	// async updateGrade(score) {
+	// 	if (!score) {
+	// 		throw new Error('Score must be provided to update a grade.');
+	// 	}
 
-		const response = await this._request(this.baseHref, 'GET');
-		if (response) {
-			if (response.properties) {
-				ret = this._parseProperties(response.properties);
-			}
+	// 	if (!this.saveGradeAction) {
+	// 		throw new Error('SaveGrade action is not yet set. You must successfully call requestGrade before updateGrade.');
+	// 	}
 
-			const action = this._getActionByName(response.actions, 'SaveGrade');
-			if (action) {
-				this.saveGradeAction = action;
-			}
-		}
+	// 	if (!(score instanceof String)) {
+	// 		score = score.toString();
+	// 	}
 
-		return ret;
-	}
+	// 	const fieldName = 'score';
 
-	async updateGrade(score) {
-		if (!score) {
-			throw new Error('Score must be provided to update a grade.');
-		}
+	// 	if (!this.saveGradeAction.hasFieldByName(fieldName)) {
+	// 		throw new Error(`Expected the ${this.saveGradeAction.name} action to have a ${fieldName} field.`);
+	// 	}
 
-		if (!(score instanceof String)) {
-			score = score.toString();
-		}
+	// 	const field = this.saveGradeAction.getFieldByName(fieldName);
+	// 	const { href, method } = this.saveGradeAction;
 
-		if (this.saveGradeAction) {
-			const { href, method, fields } = this.saveGradeAction;
-			const field = this._getFieldByName(fields, 'score');
-			const response = await this._request(href, method, { [field.name]: score });
-			if (response && response.properties) {
-				return this._parseProperties(response.properties);
-			} else {
-				throw new Error('Unable to parse new grades object after update');
-			}
-		} else {
-			throw new Error('this.saveGradeAction is not yet set.');
-		}
-	}
+	// 	const response = await this._request(href, method, { [field.name]: score });
+	// 	const parsedEntity = SirenParse(response);
+	// 	return this._parseGrade(parsedEntity);
+	// }
 }

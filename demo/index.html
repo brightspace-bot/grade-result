@@ -8,7 +8,23 @@
 			import '@brightspace-ui/core/components/typography/styles.js';
 			import '@brightspace-ui/core/components/typography/typography.js';
 			import '../d2l-grade-result.js';
-			import '../components/d2l-grade-result-presentational.js';
+			import '../src/components/d2l-grade-result-presentational.js';
+
+			import { GradesController } from '../src/controller/GradesController.js';
+			(async() => {
+				try {
+					const href = 'https://648df3aa-e573-4c44-b34b-856c0523e9d5.activities.api.proddev.d2l/activities/6606_3000_2/usages/6609/users/178/grade';
+					const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjI2Y2NkMTZjLTZmY2EtNDkxYy1hYmE2LTZhYjNkMDNhYTA4OSJ9.eyJ0ZW5hbnRpZCI6IjY0OGRmM2FhLWU1NzMtNGM0NC1iMzRiLTg1NmMwNTIzZTlkNSIsInNjb3BlIjoiKjoqOioiLCJqdGkiOiJjYjNhMzIzOC0xYmQ5LTQ1YmQtOWE2ZS1hNjY1MzA2MzE3ODAiLCJpc3MiOiJodHRwczovL2FwaS5icmlnaHRzcGFjZS5jb20vYXV0aCIsImF1ZCI6Imh0dHBzOi8vYXBpLmJyaWdodHNwYWNlLmNvbS9hdXRoL3Rva2VuIiwiZXhwIjoxNTg2NDUzNzk5LCJuYmYiOjE1ODY0NTAxOTl9.TEuImgx8o9xJqGBv9F9JfFB_5LzxQbJ1barsP3j_3V_zXYRmdBPl3DqeZ4s5sSEAJK8KMIODfj5F1SYlTachFUoWWlrji29_b1R13hb1ZJDRsXzwBR8HZEwQMZH1wCs7wIlvCl_Oj99kOKdGgYRVLT8irMhdglT8FZ2in3NCWUZzzz6fZLXKJSqW2-WeOaEkSl34YFeU6vXjRonHFaC_OD_n8hWZcDBIcFKFofe_Ouv-Rfcg2lteZFTsHN_SKrSNrD5t_8hQiSxHhl2j48vU9-pQsSXwiMDneyIihy9ufijJW3f01YFMQEebVKNqhEFXwLPpxL4F2AnPjZhUmrjwsQ';
+					const controller = new GradesController(href, token);
+					const grade = await controller.requestGrade();
+					console.log('grade', grade);
+					// const newGrade = await controller.updateGrade(Math.random());
+					// console.log(newGrade);
+				} catch (e) {
+					console.error(e);
+				}
+			})();
+
 		</script>
 		<title>d2l-grade-result</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +41,7 @@
 	</head>
 
 	<body class="d2l-typography">
-		<d2l-demo-page page-title="d2l-grade-result">
+		<!-- <d2l-demo-page page-title="d2l-grade-result">
 
 			<script type="module">
 				import { html, LitElement } from 'lit-element';
@@ -50,8 +66,8 @@
 					render() {
 						return html`
 							<d2l-labs-d2l-grade-result
-								href="https://648df3aa-e573-4c44-b34b-856c0523e9d5.activities.api.proddev.d2l/activities/6606_3000_2/usages/6609/users/178/grade"
-								token="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ijg5ZmU2ZDcwLTMxZmEtNGM0YS05NGNmLTA4OTY1ZWZmNmVjMSJ9.eyJzdWIiOiIxNzciLCJ0ZW5hbnRpZCI6IjY0OGRmM2FhLWU1NzMtNGM0NC1iMzRiLTg1NmMwNTIzZTlkNSIsInNjb3BlIjoiKjoqOioiLCJqdGkiOiI2ZDU0NzNlOC0zNzFlLTQ1YmEtOTBjMS1iMmUxMDMxZTNiOTYiLCJpc3MiOiJodHRwczovL2FwaS5icmlnaHRzcGFjZS5jb20vYXV0aCIsImF1ZCI6Imh0dHBzOi8vYXBpLmJyaWdodHNwYWNlLmNvbS9hdXRoL3Rva2VuIiwiZXhwIjoxNTg2MjAyNzg5LCJuYmYiOjE1ODYxOTkxODl9.BVyB8EAk8UAfuwDkLNeqAdoc5knZdtOLzvdU4Hv5rctBsCzD1PZ72J484MolsLo7jdnkyNfO8o7sOZIdl3bgxLuC3qNfF_ho-qmCIYj3A3xIKx5uqj0tCoKaNk3t88MX930ZWUq16E3ZaerI1ViZkUWo-psncRMqMgiJ4-oToNOuD2xRBt6SMrPVgRcyCcBQOaRLEU5uIAwr8XVGNSWMl8TD9iLIhBqeoGtCUCI3uPQ5KTJODRTG1aNGDFZfYUo2BpLLkwTDd0dc2GPOpgUl2ppS75ba2GKVoOfnSNi9tNPelT8r9uHd3GLpM0Vd578oN5QlihcLXIbwP9GVUXK9Eg"
+								href="href"
+								token="token"
 								@d2l-grade-result-initialized-success=${this.onInitializedSuccess}
 								@d2l-grade-result-initialized-error=${this.onInitializedError}
 								@d2l-grade-result-grade-updated-success=${this.onGradeUpdatedSuccess}
@@ -70,7 +86,7 @@
 				<d2l-demo-snippet>
 					<component-demo></component-demo>
 				</d2l-demo-snippet>
-			</div>
+			</div> -->
 
 			<!-- Write permissions enabled -->
 

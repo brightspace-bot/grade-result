@@ -24,6 +24,32 @@ describe('Grade class tests', () => {
 		assert.throws(() => {
 			new Grade('not valid', 10, 50, null, null);
 		}, 'Invalid scoreType given');
+
+		assert.throws(() => {
+			new Grade(undefined, 10, 50, null, null);
+		}, 'Invalid scoreType given');
+
+		assert.throws(() => {
+			new Grade(5, 10, 50, null, null);
+		}, 'Invalid scoreType given');
+
+		assert.throws(() => {
+			new Grade([], 10, 50, null, null);
+		}, 'Invalid scoreType given');
+	});
+
+	it('ensures that the gradeType is case insensitive and isLetterGrade and isNumberGrade still work', () => {
+		assert.doesNotThrow(() => {
+			const grade = new Grade('numeric', 10, 50, null, null);
+			assert.isFalse(grade.isLetterGrade());
+			assert.isTrue(grade.isNumberGrade());
+		});
+
+		assert.doesNotThrow(() => {
+			const grade = new Grade('lettergrade', null, null, 'A', ['A', 'B', 'C']);
+			assert.isTrue(grade.isLetterGrade());
+			assert.isFalse(grade.isNumberGrade());
+		});
 	});
 
 	it('throws an error if improper score/outOf are provided for numeric scores', () => {
@@ -112,4 +138,15 @@ describe('Grade class tests', () => {
 		assert.deepEqual(grade.getScoreOutOf(), ['A', 'B', 'C']);
 	});
 
+	it('ensures that the letterGrade is one of the LetterGradeOptions', () => {
+		assert.throws(() => {
+			new Grade(GradeType.Letter, null, null, 'A', ['B', 'C']);
+		}, 'letterGrade must be one of the letterGradeOptions provided');
+	});
+
+	it('allows score and outOf to be 0', () => {
+		assert.doesNotThrow(() => {
+			new Grade(GradeType.Number, 0, 0, null, null);
+		});
+	});
 });

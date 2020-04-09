@@ -8,17 +8,28 @@ export class Grade {
 	constructor(scoreType, score, outOf, letterGrade, letterGradeOptions) {
 
 		if (scoreType !== GradeType.Number && scoreType !== GradeType.Letter) {
-			throw new Error('Invalid scoreType given');
+			const invalidScoreError = new Error('Invalid scoreType given');
+			if (typeof scoreType === 'string') {
+				const compare = type => type.toLowerCase() === scoreType.toLowerCase();
+				const found = Object.values(GradeType).find(compare);
+				if (found === undefined) {
+					throw invalidScoreError;
+				} else {
+					scoreType = found;
+				}
+			} else {
+				throw invalidScoreError;
+			}
 		}
 
 		this.scoreType = scoreType;
 
 		if (this.isNumberGrade()) {
-			if (!score || isNaN(score)) {
+			if ((!score && score !== 0) || isNaN(score)) {
 				throw new Error('Invalid score provided');
 			}
 
-			if (!outOf || isNaN(outOf)) {
+			if ((!outOf && outOf !== 0) || isNaN(outOf)) {
 				throw new Error('Invalid outOf provided');
 			}
 
@@ -33,6 +44,10 @@ export class Grade {
 
 			if (!letterGradeOptions || !(letterGradeOptions instanceof Array) || Object.keys(letterGradeOptions).length === 0) {
 				throw new Error('Invalid letterGradeOptions provided');
+			}
+
+			if (letterGradeOptions.find(option => option === letterGrade) === undefined) {
+				throw new Error('letterGrade must be one of the letterGradeOptions provided');
 			}
 
 			this.score = null;

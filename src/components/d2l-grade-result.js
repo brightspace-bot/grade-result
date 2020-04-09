@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit-element';
-import { Controller } from '../controller/GradesController.js';
 import getLocalizationTranslations from './locale.js';
+import { GradesController } from '../controller/GradesController.js';
 import { GradeType } from '../controller/Grade.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
@@ -49,30 +49,30 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this._includeReportsButton = false;
 		this._gradeButtonTooltip = undefined;
 		this._reportsButtonTooltip = undefined;
-		this.manuallyOverriddenGrade = undefined;
 		this._isGradeAutoCompleted = false;
 		this._isManualOverrideActive = false;
+
+		this.manuallyOverriddenGrade = undefined;
 	}
 
 	async firstUpdated() {
 		super.firstUpdated();
-		if (this.href && this.token && !this.controller) {
-			try {
-				this.controller = new Controller(this.href, this.token);
-				await this._requestGrade();
-				this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-success', {
-					composed: true,
-					bubbles: true
-				}));
-			} catch (e) {
-				this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-error', {
-					composed: true,
-					bubbles: true,
-					detail: {
-						error: e
-					}
-				}));
-			}
+
+		try {
+			this.controller = new GradesController(this.href, this.token);
+			await this._requestGrade();
+			this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-success', {
+				composed: true,
+				bubbles: true
+			}));
+		} catch (e) {
+			this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-error', {
+				composed: true,
+				bubbles: true,
+				detail: {
+					error: e
+				}
+			}));
 		}
 	}
 
@@ -82,12 +82,10 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	}
 
 	async _updateGrade(value) {
-		let updatedGrade;
+		const updatedGrade = await this.controller.updateGrade(value);
 		if (this._gradeType === GradeType.Number) {
-			updatedGrade = await this.controller.updateGrade(value);
 			this._scoreNumerator = value;
 		} else {
-			updatedGrade = await this.controller.updateGrade(value);
 			this._selectedLetterGrade = value;
 		}
 		this._parseGrade(updatedGrade);
