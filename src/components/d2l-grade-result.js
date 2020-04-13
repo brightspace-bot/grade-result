@@ -1,7 +1,7 @@
+import { Grade, GradeType } from '../controller/Grade.js';
 import { html, LitElement } from 'lit-element';
 import getLocalizationTranslations from './locale.js';
 import { GradesController } from '../controller/GradesController.js';
-import { GradeType } from '../controller/Grade.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
 export class D2LGradeResult extends LocalizeMixin(LitElement) {
@@ -9,6 +9,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		return {
 			href: { type: String },
 			token: { type: String },
+			disableAutoSave: { type: Boolean },
 			_labelText: { type: String },
 			_scoreNumerator: { type: String },
 			_scoreDenominator: { type: String },
@@ -21,7 +22,9 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			_letterGradeOptions: { type: Array },
 			_selectedLetterGrade: { type: String },
 			_isGradeAutoCompleted: { type: Boolean },
-			_isManualOverrideActive: { type: Boolean }
+			_isManualOverrideActive: { type: Boolean },
+			_manuallyOverriddenGrade: {type: Object },
+			_controller: { type: Object }
 		};
 	}
 
@@ -34,6 +37,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 
 		this.href = undefined;
 		this.token = undefined;
+		this.disableAutoSave = false;
 
 		this._readOnly = false;
 		this._labelText = '';
@@ -52,14 +56,15 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this._isGradeAutoCompleted = false;
 		this._isManualOverrideActive = false;
 
-		this.manuallyOverriddenGrade = undefined;
+		this._manuallyOverriddenGrade = undefined;
+		this._controller = undefined;
 	}
 
 	async firstUpdated() {
 		super.firstUpdated();
 
 		try {
-			this.controller = new GradesController(this.href, this.token);
+			this._controller = new GradesController(this.href, this.token);
 			await this._requestGrade();
 			this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-success', {
 				composed: true,
@@ -77,18 +82,11 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	}
 
 	async _requestGrade() {
-		const grade = await this.controller.requestGrade();
-		this._parseGrade(grade);
+		this._parseGrade(await this._controller.requestGrade());
 	}
 
 	async _updateGrade(value) {
-		const updatedGrade = await this.controller.updateGrade(value);
-		if (this._gradeType === GradeType.Number) {
-			this._scoreNumerator = value;
-		} else {
-			this._selectedLetterGrade = value;
-		}
-		this._parseGrade(updatedGrade);
+		this._parseGrade(await this._controller.updateGrade(value));
 	}
 
 	_parseGrade(grade) {
@@ -100,6 +98,52 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			this._selectedLetterGrade = grade.getScore();
 			this._letterGradeOptions = grade.getScoreOutOf();
 		}
+	}
+
+	async updateGrade(value) {
+		try {
+			await this._updateGrade(value);
+			this.dispatchEvent(new CustomEvent('d2l-grade-result-grade-updated-success', {
+				composed: true,
+				bubbles: true,
+				detail: {
+					value
+				}
+			}));
+		} catch (e) {
+			this.dispatchEvent(new CustomEvent('d2l-grade-result-grade-updated-error', {
+				composed: true,
+				bubbles: true,
+				detail: {
+					error: e
+				}
+			}));
+		}
+	}
+
+	async _handleGradeChange(e) {
+		if (!this.disableAutoSave) {
+			await this.updateGrade(e.detail.value);
+		}
+	}
+
+	_handleManualOverrideClick() {
+		this._isManualOverrideActive = true;
+		this._manuallyOverriddenGrade = new Grade(this._gradeType, this._scoreNumerator, this._scoreDenominator, this._selectedLetterGrade, this._letterGradeOptions);
+		this.dispatchEvent('d2l-grade-result-manual-override-click', {
+			composed: true,
+			bubbles: true
+		});
+	}
+
+	_handleManualOverrideClearClick() {
+		this._isManualOverrideActive = false;
+		this._parseGrade(this._manuallyOverriddenGrade);
+		this._manuallyOverriddenGrade = undefined;
+		this.dispatchEvent('d2l-grade-result-manual-override-clear-click', {
+			composed: true,
+			bubbles: true
+		});
 	}
 
 	render() {
@@ -124,56 +168,6 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 				@d2l-grade-result-manual-override-clear-click=${this._handleManualOverrideClearClick}
 			></d2l-labs-d2l-grade-result-presentational>
 		`;
-	}
-
-	async _handleGradeChange(e) {
-		try {
-			const { value } = e.detail;
-			await this._updateGrade(value);
-			this.dispatchEvent(new CustomEvent('d2l-grade-result-grade-updated-success', {
-				composed: true,
-				bubbles: true,
-				detail: {
-					value
-				}
-			}));
-		} catch (e) {
-			this.dispatchEvent(new CustomEvent('d2l-grade-result-grade-updated-error', {
-				composed: true,
-				bubbles: true,
-				detail: {
-					error: e
-				}
-			}));
-		}
-	}
-
-	_handleManualOverrideClick() {
-		this._isManualOverrideActive = true;
-		if (this._gradeType === GradeType.Number && this._scoreDenominator !== undefined) {
-			this.manuallyOverriddenGrade = this._scoreNumerator;
-		} else if (this._gradeType === GradeType.Letter && this._selectedLetterGrade !== undefined) {
-			this.manuallyOverriddenGrade = this._selectedLetterGrade;
-		}
-		this.dispatchEvent('d2l-grade-result-manual-override-click', {
-			composed: true,
-			bubbles: true
-		});
-	}
-
-	_handleManualOverrideClearClick() {
-		this._isManualOverrideActive = false;
-		if (this.manuallyOverriddenGrade) {
-			if (this._gradeType === GradeType.Number) {
-				this._scoreNumerator = this.manuallyOverriddenGrade;
-			} else if (this._gradeType === GradeType.Letter) {
-				this._selectedLetterGrade = this.manuallyOverriddenGrade;
-			}
-		}
-		this.dispatchEvent('d2l-grade-result-manual-override-clear-click', {
-			composed: true,
-			bubbles: true
-		});
 	}
 }
 

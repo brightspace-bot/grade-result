@@ -1,7 +1,6 @@
-import { ActivityGradeEntity } from 'siren-sdk/src/activities/ActivityGradeEntity.js';
-import { entityFactory } from 'siren-sdk/src/es6/EntityFactory.js';
-// import { Grade } from './Grade.js';
-// import SirenParse from 'siren-parser';
+import 'd2l-polymer-siren-behaviors/store/entity-store.js';
+import { Grade } from './Grade.js';
+import { performSirenAction } from 'siren-sdk/src/es6/SirenAction.js';
 
 export class GradesController {
 	constructor(baseHref, token) {
@@ -16,67 +15,67 @@ export class GradesController {
 		this.baseHref = baseHref;
 		this.token = token;
 		this.saveGradeAction = undefined;
-		this.isEntitySubscribed = false;
 	}
 
-	// _parseGrade(entity) {
-	// 	if (!entity.properties) {
-	// 		throw new Error('Entity does not have properties attached to it.');
-	// 	}
+	_parseGrade(entity) {
+		if (!entity.properties) {
+			throw new Error('Entity does not have properties attached to it.');
+		}
 
-	// 	return new Grade(
-	// 		entity.properties.scoreType,
-	// 		entity.properties.score,
-	// 		entity.properties.outOf,
-	// 		entity.properties.letterGrade,
-	// 		entity.properties.letterGradeOptions
-	// 	);
-	// }
-
-	// _parseSaveGradeAction(entity) {
-	// 	const actionName = 'SaveGrade';
-
-	// 	if (!entity.hasActionByName(actionName)) {
-	// 		throw new Error('Could not find the SaveGrade action from entity.');
-	// 	}
-
-	// 	this.saveGradeAction = entity.getActionByName(actionName);
-	// }
-
-	requestGrade() {
-		return new Promise((resolve, reject) => {
-			entityFactory(ActivityGradeEntity, this.href, this.token, (entity, error) => {
-				if (error) reject(error);
-				resolve(entity);
-			});
-			setTimeout(() => reject('Request timed out'), 5000);
-		});
+		return new Grade(
+			entity.properties.scoreType,
+			entity.properties.score,
+			entity.properties.outOf,
+			entity.properties.letterGrade,
+			entity.properties.letterGradeOptions
+		);
 	}
 
-	// async updateGrade(score) {
-	// 	if (!score) {
-	// 		throw new Error('Score must be provided to update a grade.');
-	// 	}
+	_parseSaveGradeAction(entity) {
+		const actionName = 'SaveGrade';
 
-	// 	if (!this.saveGradeAction) {
-	// 		throw new Error('SaveGrade action is not yet set. You must successfully call requestGrade before updateGrade.');
-	// 	}
+		if (!entity.hasActionByName(actionName)) {
+			throw new Error('Could not find the SaveGrade action from entity.');
+		}
 
-	// 	if (!(score instanceof String)) {
-	// 		score = score.toString();
-	// 	}
+		this.saveGradeAction = entity.getActionByName(actionName);
+	}
 
-	// 	const fieldName = 'score';
+	async requestGrade() {
+		const response = await window.D2L.Siren.EntityStore.fetch(this.baseHref, this.token, true);
+		if (!response) {
+			throw new Error('request for grade failed');
+		}
+		if (!response.entity) {
+			throw new Error('entity not found for requestGrade');
+		}
+		this._parseSaveGradeAction(response.entity);
+		return this._parseGrade(response.entity);
+	}
 
-	// 	if (!this.saveGradeAction.hasFieldByName(fieldName)) {
-	// 		throw new Error(`Expected the ${this.saveGradeAction.name} action to have a ${fieldName} field.`);
-	// 	}
+	async updateGrade(score) {
+		if (!score) {
+			throw new Error('Score must be provided to update a grade.');
+		}
 
-	// 	const field = this.saveGradeAction.getFieldByName(fieldName);
-	// 	const { href, method } = this.saveGradeAction;
+		if (!this.saveGradeAction) {
+			throw new Error('SaveGrade action is not yet set. You must successfully call requestGrade before updateGrade.');
+		}
 
-	// 	const response = await this._request(href, method, { [field.name]: score });
-	// 	const parsedEntity = SirenParse(response);
-	// 	return this._parseGrade(parsedEntity);
-	// }
+		if (!(score instanceof String)) {
+			score = score.toString();
+		}
+
+		const fieldName = 'score';
+
+		if (!this.saveGradeAction.hasFieldByName(fieldName)) {
+			throw new Error(`Expected the ${this.saveGradeAction.name} action to have a ${fieldName} field.`);
+		}
+
+		const field = this.saveGradeAction.getFieldByName(fieldName);
+		field.value = score;
+
+		const newGrade = await performSirenAction(this.token, this.saveGradeAction, [field], true);
+		return this._parseGrade(newGrade);
+	}
 }

@@ -9,21 +9,45 @@
 			import '@brightspace-ui/core/components/typography/typography.js';
 			import '../d2l-grade-result.js';
 			import '../src/components/d2l-grade-result-presentational.js';
+			import { html, LitElement } from 'lit-element';
 
-			import { GradesController } from '../src/controller/GradesController.js';
-			(async() => {
-				try {
-					const href = 'https://648df3aa-e573-4c44-b34b-856c0523e9d5.activities.api.proddev.d2l/activities/6606_3000_2/usages/6609/users/178/grade';
-					const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjI2Y2NkMTZjLTZmY2EtNDkxYy1hYmE2LTZhYjNkMDNhYTA4OSJ9.eyJ0ZW5hbnRpZCI6IjY0OGRmM2FhLWU1NzMtNGM0NC1iMzRiLTg1NmMwNTIzZTlkNSIsInNjb3BlIjoiKjoqOioiLCJqdGkiOiJjYjNhMzIzOC0xYmQ5LTQ1YmQtOWE2ZS1hNjY1MzA2MzE3ODAiLCJpc3MiOiJodHRwczovL2FwaS5icmlnaHRzcGFjZS5jb20vYXV0aCIsImF1ZCI6Imh0dHBzOi8vYXBpLmJyaWdodHNwYWNlLmNvbS9hdXRoL3Rva2VuIiwiZXhwIjoxNTg2NDUzNzk5LCJuYmYiOjE1ODY0NTAxOTl9.TEuImgx8o9xJqGBv9F9JfFB_5LzxQbJ1barsP3j_3V_zXYRmdBPl3DqeZ4s5sSEAJK8KMIODfj5F1SYlTachFUoWWlrji29_b1R13hb1ZJDRsXzwBR8HZEwQMZH1wCs7wIlvCl_Oj99kOKdGgYRVLT8irMhdglT8FZ2in3NCWUZzzz6fZLXKJSqW2-WeOaEkSl34YFeU6vXjRonHFaC_OD_n8hWZcDBIcFKFofe_Ouv-Rfcg2lteZFTsHN_SKrSNrD5t_8hQiSxHhl2j48vU9-pQsSXwiMDneyIihy9ufijJW3f01YFMQEebVKNqhEFXwLPpxL4F2AnPjZhUmrjwsQ';
-					const controller = new GradesController(href, token);
-					const grade = await controller.requestGrade();
-					console.log('grade', grade);
-					// const newGrade = await controller.updateGrade(Math.random());
-					// console.log(newGrade);
-				} catch (e) {
-					console.error(e);
+			// SET THE HREF AND TOKEN HERE.
+			const href = 'href';
+			const token = 'token';
+
+			export class ComponentDemo extends LitElement {
+				onInitializedSuccess(e) {
+					console.log('initialized success', e);
 				}
-			})();
+
+				onInitializedError(e) {
+					console.log('initialized error', e);
+				}
+
+				onGradeUpdatedSuccess(e) {
+					console.log('grade updated success', e);
+				}
+
+				onGradeUpdatedError(e) {
+					console.log('grade updated error', e);
+				}
+
+				render() {
+					return html`
+						<d2l-labs-d2l-grade-result
+							href=${href}
+							token=${token}
+							disableAutoSave
+							@d2l-grade-result-initialized-success=${this.onInitializedSuccess}
+							@d2l-grade-result-initialized-error=${this.onInitializedError}
+							@d2l-grade-result-grade-updated-success=${this.onGradeUpdatedSuccess}
+							@d2l-grade-result-grade-updated-error=${this.onGradeUpdatedError}
+						></d2l-labs-d2l-grade-result>
+					`;
+				}
+			}
+
+			customElements.define('component-demo', ComponentDemo);
 
 		</script>
 		<title>d2l-grade-result</title>
@@ -41,43 +65,10 @@
 	</head>
 
 	<body class="d2l-typography">
-		<!-- <d2l-demo-page page-title="d2l-grade-result">
+		<d2l-demo-page page-title="d2l-grade-result">
 
 			<script type="module">
-				import { html, LitElement } from 'lit-element';
-
-				export class ComponentDemo extends LitElement {
-					onInitializedSuccess(e) {
-						console.log('initialized success', e);
-					}
-
-					onInitializedError(e) {
-						console.log('initialized error', e);
-					}
-
-					onGradeUpdatedSuccess(e) {
-						console.log('grade updated success', e);
-					}
-
-					onGradeUpdatedError(e) {
-						console.log('grade updated error', e);
-					}
-
-					render() {
-						return html`
-							<d2l-labs-d2l-grade-result
-								href="href"
-								token="token"
-								@d2l-grade-result-initialized-success=${this.onInitializedSuccess}
-								@d2l-grade-result-initialized-error=${this.onInitializedError}
-								@d2l-grade-result-grade-updated-success=${this.onGradeUpdatedSuccess}
-								@d2l-grade-result-grade-updated-error=${this.onGradeUpdatedError}
-							></d2l-labs-d2l-grade-result>
-						`;
-					}
-				}
-
-				customElements.define('component-demo', ComponentDemo);
+				
 			</script>
 
 			<div class="section">
@@ -86,7 +77,7 @@
 				<d2l-demo-snippet>
 					<component-demo></component-demo>
 				</d2l-demo-snippet>
-			</div> -->
+			</div>
 
 			<!-- Write permissions enabled -->
 
