@@ -66,7 +66,7 @@ export class Grade {
 	}
 
 	getScoreType() {
-		return this.isNumberGrade() ? GradeType.Number : GradeType.Letter;
+		return this.scoreType;
 	}
 
 	getScore() {
