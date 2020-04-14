@@ -22,7 +22,8 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 			reportsButtonTooltip: { type: String },
 			readOnly: { type: Boolean },
 			isGradeAutoCompleted: { type: Boolean },
-			isManualOverrideActive: { type: Boolean }
+			isManualOverrideActive: { type: Boolean },
+			hideTitle: { type: Boolean }
 		};
 	}
 
@@ -47,6 +48,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		this.selectedLetterGrade = '';
 		this.isGradeAutoCompleted = false;
 		this.isManualOverrideActive = false;
+		this.hideTitle = false;
 	}
 
 	_onGradeButtonClick() {
@@ -126,6 +128,18 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		return html``;
 	}
 
+	_getTitle() {
+		if (!this.hideTitle) {
+			return html`
+				<span class="d2l-input-label">
+					${this.labelText ? html`${this.labelText}` : html``}
+				</span>
+			`;
+		}
+
+		return html``;
+	}
+
 	_onManualOverrideClick() {
 		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-click', {
 			composed: true,
@@ -142,9 +156,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 
 	render() {
 		return html`
-			<span class="d2l-input-label">
-				${this.labelText ? html`${this.labelText}` : html``}
-			</span>
+			${this._getTitle()}
 
 			<div class="d2l-grade-result-presentational-container">
 

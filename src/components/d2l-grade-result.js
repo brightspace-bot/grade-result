@@ -23,6 +23,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			_selectedLetterGrade: { type: String },
 			_isGradeAutoCompleted: { type: Boolean },
 			_isManualOverrideActive: { type: Boolean },
+			_hideTitle: { type: Boolean },
 			_manuallyOverriddenGrade: {type: Object },
 			_controller: { type: Object }
 		};
@@ -41,6 +42,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 
 		this._readOnly = false;
 		this._labelText = '';
+		this._hideTitle = false;
 
 		this._gradeType = GradeType.Number;
 		this._scoreNumerator = 0;
@@ -162,6 +164,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 				?readOnly=${this._readOnly}
 				?isGradeAutoCompleted=${this._isGradeAutoCompleted}
 				?isManualOverrideActive=${this._isManualOverrideActive}
+				?hideTitle=${this._hideTitle}
 				@d2l-grade-result-grade-change=${this._handleGradeChange}
 				@d2l-grade-result-letter-score-selected=${this._handleGradeChange}
 				@d2l-grade-result-manual-override-click=${this._handleManualOverrideClick}

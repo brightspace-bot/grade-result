@@ -26,11 +26,12 @@ A web component used for rendering grades in Brightspace
 
 #### d2l-labs-d2l-grade-result
 
-| Property        | Type      | Default | Description                                                  |
-| --------------- | --------- | ------- | ------------------------------------------------------------ |
-| href            | `string`  | `''`    | The Hypermedia route to power the component. This component runs off of the /grade route or an activity. |
-| token           | `string`  | `''`    | For authentication                                           |
-| disableAutoSave | `boolean` | `false` | Prevent the component from automatically saving the grade to the API when the grade is changed. |
+| Property          | Type      | Default | Description                                                  |
+| ----------------- | --------- | ------- | ------------------------------------------------------------ |
+| `href`            | `string`  | `''`    | The Hypermedia route to power the component. This component runs off of the /grade route or an activity. |
+| `token`           | `string`  | `''`    | For authentication                                           |
+| `disableAutoSave` | `boolean` | `false` | Prevent the component from automatically saving the grade to the API when the grade is changed. |
+| `_hideTitle`      | `boolean` | `false` | This property will hide the "Overall Grade" title above the component. |
 
 ##### Public Methods
 
@@ -42,21 +43,22 @@ If you are only interested in rendering the presentational layer of the componen
 
 #### d2l-labs-d2l-grade-result-presentational
 
-| Property               | GradeType   | Type                        | Default     | Description                                                  |
-| ---------------------- | ----------- | --------------------------- | ----------- | ------------------------------------------------------------ |
-| gradeType              | All         | `'Numeric' | 'LetterGrade'` | `'Numeric'` | Specifies the type of grade that the component is meant to render. |
-| labelText              | All         | `string`                    | `''`        | The text that appears above the component.                   |
-| scoreNumerator         | Numeric     | `number`                    | `0`         | The numerator of the numeric score that is given.            |
-| scoreDenominator       | Numeric     | `number`                    | `0`         | The denominator of the numeric score that is given.          |
-| selectedLetterGrade    | LetterGrade | `string`                    | `''`        | The current selected letter grade of the options given.      |
-| letterGradeOptions     | LetterGrade | `string[]`                  | `[]`        | All of the possible letter grades that can be selected.      |
-| includeGradeButton     | All         | `boolean`                   | `false`     | Determines whether the grades icon button is rendered.       |
-| includeReportsButton   | All         | `boolean`                   | `false`     | Determines whether the reports icon button is rendered.      |
-| gradeButtonTooltip     | All         | `string`                    | `''`        | The text that is inside of the tooltip when hovering over the grades button. |
-| reportsButtonTooltip   | All         | `string`                    | `''`        | The text that is inside of the tooltip when hovering over the reports button. |
-| readOnly               | All         | `boolean`                   | `false`     | Set to `true` if the user does not have permissions to edit the grade. |
-| isGradeAutoCompleted   | All         | `boolean`                   | `false`     | Set to `true` if a grade has been automatically provided for the activity. This will show the 'Manually Override Grade' button. |
-| isManualOverrideActive | All         | `boolean`                   | `false`     | Set to `true` is the user is currently manually overriding the grade. This will change the text of the manual override button to 'Clear Manual Override'. |
+| Property                 | GradeType   | Type                        | Default     | Description                                                  |
+| ------------------------ | ----------- | --------------------------- | ----------- | ------------------------------------------------------------ |
+| `gradeType`              | All         | `'Numeric' | 'LetterGrade'` | `'Numeric'` | Specifies the type of grade that the component is meant to render. |
+| `labelText`              | All         | `string`                    | `''`        | The text that appears above the component.                   |
+| `scoreNumerator`         | Numeric     | `number`                    | `0`         | The numerator of the numeric score that is given.            |
+| `scoreDenominator`       | Numeric     | `number`                    | `0`         | The denominator of the numeric score that is given.          |
+| `selectedLetterGrade`    | LetterGrade | `string`                    | `''`        | The current selected letter grade of the options given.      |
+| `letterGradeOptions`     | LetterGrade | `string[]`                  | `[]`        | All of the possible letter grades that can be selected.      |
+| `includeGradeButton`     | All         | `boolean`                   | `false`     | Determines whether the grades icon button is rendered.       |
+| `includeReportsButton`   | All         | `boolean`                   | `false`     | Determines whether the reports icon button is rendered.      |
+| `gradeButtonTooltip`     | All         | `string`                    | `''`        | The text that is inside of the tooltip when hovering over the grades button. |
+| `reportsButtonTooltip`   | All         | `string`                    | `''`        | The text that is inside of the tooltip when hovering over the reports button. |
+| `readOnly`               | All         | `boolean`                   | `false`     | Set to `true` if the user does not have permissions to edit the grade. |
+| `isGradeAutoCompleted`   | All         | `boolean`                   | `false`     | Set to `true` if a grade has been automatically provided for the activity. This will show the 'Manually Override Grade' button. |
+| `isManualOverrideActive` | All         | `boolean`                   | `false`     | Set to `true` is the user is currently manually overriding the grade. This will change the text of the manual override button to 'Clear Manual Override'. |
+| `hideTitle`              | All         | `boolean`                   | `false`     | This property will hide the "Overall Grade" title above the component. |
 
 ## Events
 
@@ -98,7 +100,7 @@ npm install @brightspace-ui-labs/d2l-grade-result
 <script type="module">
     import '@brightspace-ui-labs/d2l-grade-result/d2l-grade-result.js';
 </script>
-<d2l-labs-d2l-grade-result href="href" token="token" disableAutoSave>My element</d2l-labs-d2l-grade-result>
+<d2l-labs-d2l-grade-result href="href" token="token" disableAutoSave _hideTitle>My element</d2l-labs-d2l-grade-result>
 ```
 
 ## Developing, Testing and Contributing
