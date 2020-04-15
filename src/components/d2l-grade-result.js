@@ -25,7 +25,8 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			_isManualOverrideActive: { type: Boolean },
 			_hideTitle: { type: Boolean },
 			_manuallyOverriddenGrade: {type: Object },
-			_controller: { type: Object }
+			_controller: { type: Object },
+			_hasUnsavedChanged: { type: Boolean }
 		};
 	}
 
@@ -60,6 +61,7 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 
 		this._manuallyOverriddenGrade = undefined;
 		this._controller = undefined;
+		this._hasUnsavedChanged = false;
 	}
 
 	async firstUpdated() {
@@ -83,12 +85,18 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		}
 	}
 
+	hasUnsavedChanges() {
+		return this._hasUnsavedChanged;
+	}
+
 	async _requestGrade() {
 		this._parseGrade(await this._controller.requestGrade());
+		this._hasUnsavedChanged = false;
 	}
 
 	async _updateGrade(value) {
 		this._parseGrade(await this._controller.updateGrade(value));
+		this._hasUnsavedChanged = false;
 	}
 
 	_parseGrade(grade) {
@@ -126,6 +134,8 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	async _handleGradeChange(e) {
 		if (!this.disableAutoSave) {
 			await this.updateGrade(e.detail.value);
+		} else {
+			this._hasUnsavedChanged = true;
 		}
 	}
 

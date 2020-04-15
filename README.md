@@ -38,6 +38,7 @@ A web component used for rendering grades in Brightspace
 | Method                                    | Description                                                  |
 | ----------------------------------------- | ------------------------------------------------------------ |
 | `updateGrade(score: string|number): void` | This is the method used to manually save the grade to the server when `disableAutoSave = true`. This method will emit `@d2l-grade-result-grade-updated-success` or `@d2l-grade-result-grade-updated-error`. |
+| `hasUnsavedChanges(): boolean`            | Determines whether the grade has been changed by the user and has not been saved to the server yet. |
 
 If you are only interested in rendering the presentational layer of the component, you can simply use the `d2l-grade-result-presentational` component.
 
