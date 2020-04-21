@@ -35,10 +35,10 @@ A web component used for rendering grades in Brightspace
 
 ##### Public Methods
 
-| Method                                    | Description                                                  |
-| ----------------------------------------- | ------------------------------------------------------------ |
-| `updateGrade(score: string|number): void` | This is the method used to manually save the grade to the server when `disableAutoSave = true`. This method will emit `@d2l-grade-result-grade-updated-success` or `@d2l-grade-result-grade-updated-error`. |
-| `hasUnsavedChanges(): boolean`            | Determines whether the grade has been changed by the user and has not been saved to the server yet. |
+| Method                         | Description                                                  |
+| ------------------------------ | ------------------------------------------------------------ |
+| `saveGrade(): void`            | This is the method used to manually save the grade to the server when `disableAutoSave = true`. This method will emit `@d2l-grade-result-grade-saved-success` or `@d2l-grade-result-grade-saved-error`. |
+| `hasUnsavedChanges(): boolean` | Determines whether the grade has been changed by the user and has not been saved to the server yet. |
 
 If you are only interested in rendering the presentational layer of the component, you can simply use the `d2l-grade-result-presentational` component.
 
@@ -69,8 +69,10 @@ If you are only interested in rendering the presentational layer of the componen
 | ----------------------------------------------- | ------------------------------------------------------------ |
 | `@d2l-grade-result-initialized-success`         | This event is fired when the component is successfully initialized and a grade is loaded from the API. |
 | `@d2l-grade-result-initialized-error`           | This event is fired when there is an error initializing the component. This is usually caused by an invalid `href` or `token`. |
-| `@d2l-grade-result-grade-updated-success`       | This event is fired when the grade is successfully updated on the server. |
-| `@d2l-grade-result-grade-updated-error`         | This event is fired when there is an error updating the grade. This is usually caused by an invalid `href` or `token`. |
+| `@d2l-grade-result-grade-updated-success`       | This event is fired when the grade is successfully updated on the frontend. |
+| `@d2l-grade-result-grade-updated-error`         | This event is fired when there is an error updating the grade on the frontend. |
+| `@d2l-grade-result-grade-saved-success`         | This event is fired when the grade is successfully saved to the server. |
+| `@d2l-grade-result-grade-saved-error`           | This event is fired when there is an error while saving the grade to the server. |
 | `@d2l-grade-result-grade-button-click`          | This event is fired when the grades button is clicked.       |
 | `@d2l-grade-result-reports-button-click`        | This event is fired when the reports button is clicked.      |
 | `@d2l-grade-result-manual-override-click`       | This event is fired when the manual override button is clicked. |

@@ -5,56 +5,72 @@ export const GradeType = {
 };
 
 export class Grade {
-	constructor(scoreType, score, outOf, letterGrade, letterGradeOptions) {
-
-		if (scoreType !== GradeType.Number && scoreType !== GradeType.Letter) {
-			const invalidScoreError = new Error('Invalid scoreType given');
-			if (typeof scoreType === 'string') {
-				const compare = type => type.toLowerCase() === scoreType.toLowerCase();
-				const found = Object.values(GradeType).find(compare);
-				if (found === undefined) {
-					throw invalidScoreError;
-				} else {
-					scoreType = found;
-				}
-			} else {
-				throw invalidScoreError;
-			}
-		}
-
-		this.scoreType = scoreType;
-
+	constructor(scoreType, score, outOf, letterGrade, letterGradeOptions, entity) {
+		this.entity = entity;
+		this.scoreType = this._parseScoreType(scoreType);
 		if (this.isNumberGrade()) {
-			if ((!score && score !== 0) || isNaN(score)) {
-				throw new Error('Invalid score provided');
-			}
-
-			if ((!outOf && outOf !== 0) || isNaN(outOf)) {
-				throw new Error('Invalid outOf provided');
-			}
-
-			this.score = score;
-			this.outOf = outOf;
-			this.letterGrade = null;
-			this.letterGradeOptions = null;
+			this._parseNumberGrade(score, outOf);
 		} else {
-			if (!letterGrade || typeof letterGrade !== 'string') {
-				throw new Error('Invalid letterGrade provided');
-			}
-
-			if (!letterGradeOptions || !(letterGradeOptions instanceof Array) || Object.keys(letterGradeOptions).length === 0) {
-				throw new Error('Invalid letterGradeOptions provided');
-			}
-
-			if (letterGradeOptions.find(option => option === letterGrade) === undefined) {
-				throw new Error('letterGrade must be one of the letterGradeOptions provided');
-			}
-
-			this.score = null;
-			this.outOf = null;
-			this.letterGrade = letterGrade;
-			this.letterGradeOptions = letterGradeOptions;
+			this._parseLetterGrade(letterGrade, letterGradeOptions);
 		}
+	}
+
+	_parseScoreType(scoreType) {
+		const invalidScoreError = new Error('Invalid scoreType given');
+
+		if (!scoreType || typeof scoreType !== 'string') {
+			throw invalidScoreError;
+		}
+
+		if (scoreType.toLowerCase() === GradeType.Number.toLowerCase()) {
+			return GradeType.Number;
+		} else if (scoreType.toLowerCase() === GradeType.Letter.toLowerCase()) {
+			return GradeType.Letter;
+		} else {
+			throw invalidScoreError;
+		}
+	}
+
+	_parseNumberGrade(score, outOf) {
+		if ((!score && score !== 0) || isNaN(score)) {
+			throw new Error('Invalid score provided');
+		}
+
+		if ((!outOf && outOf !== 0) || isNaN(outOf)) {
+			throw new Error('Invalid outOf provided');
+		}
+
+		if (typeof score === 'string') {
+			score = Number(score);
+		}
+
+		if (typeof outOf === 'string') {
+			outOf = Number(outOf);
+		}
+
+		this.score = score;
+		this.outOf = outOf;
+		this.letterGrade = null;
+		this.letterGradeOptions = null;
+	}
+
+	_parseLetterGrade(letterGrade, letterGradeOptions) {
+		if (!letterGrade || typeof letterGrade !== 'string') {
+			throw new Error('Invalid letterGrade provided');
+		}
+
+		if (!letterGradeOptions || !Array.isArray(letterGradeOptions) || letterGradeOptions.length === 0) {
+			throw new Error('Invalid letterGradeOptions provided');
+		}
+
+		if (!letterGradeOptions.includes(letterGrade)) {
+			throw new Error('letterGrade must be one of the letterGradeOptions provided');
+		}
+
+		this.score = null;
+		this.outOf = null;
+		this.letterGrade = letterGrade;
+		this.letterGradeOptions = letterGradeOptions;
 	}
 
 	isLetterGrade() {
@@ -70,22 +86,22 @@ export class Grade {
 	}
 
 	getScore() {
-		if (this.isNumberGrade() && this.score) {
-			return this.score;
-		} else if (this.isLetterGrade() && this.letterGrade) {
-			return this.letterGrade;
-		} else {
-			throw new Error('Unable to parse the score');
-		}
+		return this.isNumberGrade() ? this.score : this.letterGrade;
 	}
 
 	getScoreOutOf() {
-		if (this.isNumberGrade() && this.outOf) {
-			return this.outOf;
-		} else if (this.isLetterGrade() && this.letterGradeOptions) {
-			return this.letterGradeOptions;
+		return this.isNumberGrade() ? this.outOf : this.letterGradeOptions;
+	}
+
+	setScore(score) {
+		if (this.isNumberGrade()) {
+			this._parseNumberGrade(score, this.outOf);
 		} else {
-			throw new Error('Unable to parse the score outOf');
+			this._parseLetterGrade(score, this.letterGradeOptions);
 		}
+	}
+
+	getEntity() {
+		return this.entity;
 	}
 }

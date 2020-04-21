@@ -44,7 +44,6 @@
     "d2l-polymer-siren-behaviors": "github:Brightspace/polymer-siren-behaviors",
     "d2l-tooltip": "github:BrightspaceUI/tooltip#semver:^3",
     "lit-element": "^2",
-    "siren-parser": "^8.2.0",
     "siren-sdk": "github:BrightspaceHypermediaComponents/siren-sdk#semver:1"
   }
 }

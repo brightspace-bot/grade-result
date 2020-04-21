@@ -14,7 +14,6 @@ export class GradesController {
 
 		this.baseHref = baseHref;
 		this.token = token;
-		this.saveGradeAction = undefined;
 	}
 
 	_parseGrade(entity) {
@@ -27,55 +26,50 @@ export class GradesController {
 			entity.properties.score,
 			entity.properties.outOf,
 			entity.properties.letterGrade,
-			entity.properties.letterGradeOptions
+			entity.properties.letterGradeOptions,
+			entity
 		);
 	}
 
-	_parseSaveGradeAction(entity) {
-		const actionName = 'SaveGrade';
-
-		if (!entity.hasActionByName(actionName)) {
-			throw new Error('Could not find the SaveGrade action from entity.');
-		}
-
-		this.saveGradeAction = entity.getActionByName(actionName);
-	}
-
-	async requestGrade() {
-		const response = await window.D2L.Siren.EntityStore.fetch(this.baseHref, this.token, true);
+	async requestGrade(bypassCache = false) {
+		const response = await window.D2L.Siren.EntityStore.fetch(this.baseHref, this.token, bypassCache);
 		if (!response) {
 			throw new Error('request for grade failed');
 		}
 		if (!response.entity) {
 			throw new Error('entity not found for requestGrade');
 		}
-		this._parseSaveGradeAction(response.entity);
-		return this._parseGrade(response.entity);
+		const entity = response.entity;
+		const grade = this._parseGrade(entity);
+		return grade;
 	}
 
-	async updateGrade(score) {
-		if (!score) {
-			throw new Error('Score must be provided to update a grade.');
+	async updateGrade(grade) {
+		if (!grade) {
+			throw new Error('grade must be provided to update a grade.');
+		}
+		const entity = grade.getEntity();
+		if (!entity) {
+			throw new Error('entity must be provided with the grade to update a grade.');
 		}
 
-		if (!this.saveGradeAction) {
-			throw new Error('SaveGrade action is not yet set. You must successfully call requestGrade before updateGrade.');
-		}
-
-		if (!(score instanceof String)) {
-			score = score.toString();
-		}
-
+		const actionName = 'SaveGrade';
 		const fieldName = 'score';
 
-		if (!this.saveGradeAction.hasFieldByName(fieldName)) {
+		if (!entity.hasActionByName(actionName)) {
+			throw new Error('Could not find the SaveGrade action from entity.');
+		}
+
+		const saveGradeAction = entity.getActionByName(actionName);
+
+		if (!saveGradeAction.hasFieldByName(fieldName)) {
 			throw new Error(`Expected the ${this.saveGradeAction.name} action to have a ${fieldName} field.`);
 		}
 
-		const field = this.saveGradeAction.getFieldByName(fieldName);
-		field.value = score;
+		const field = saveGradeAction.getFieldByName(fieldName);
+		field.value = grade.getScore();
 
-		const newGrade = await performSirenAction(this.token, this.saveGradeAction, [field], true);
-		return this._parseGrade(newGrade);
+		const newGradeEntity = await performSirenAction(this.token, saveGradeAction, [field], true);
+		return this._parseGrade(newGradeEntity);
 	}
 }

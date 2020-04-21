@@ -149,4 +149,60 @@ describe('Grade class tests', () => {
 			new Grade(GradeType.Number, 0, 0, null, null);
 		});
 	});
+
+	it('properly updates a score of a number grade', () => {
+		const grade = new Grade(GradeType.Number, 0, 0, null, null);
+
+		assert.doesNotThrow(() => {
+			grade.setScore(10);
+			assert.equal(grade.getScore(), 10);
+		});
+
+		assert.throws(() => {
+			grade.setScore(null);
+		}, 'Invalid score provided');
+
+		assert.throws(() => {
+			grade.setScore('A');
+		}, 'Invalid score provided');
+
+		assert.throws(() => {
+			grade.setScore(['A']);
+		}, 'Invalid score provided');
+	});
+
+	it('properly updates a letter grade', () => {
+		const grade = new Grade(GradeType.Letter, null, null, 'A', ['A', 'B', 'C']);
+
+		assert.doesNotThrow(() => {
+			grade.setScore('B');
+			assert.equal(grade.getScore(), 'B');
+		});
+
+		assert.throws(() => {
+			grade.setScore(null);
+		}, 'Invalid letterGrade provided');
+
+		assert.throws(() => {
+			grade.setScore();
+		}, 'Invalid letterGrade provided');
+
+		assert.throws(() => {
+			grade.setScore(10);
+		}, 'Invalid letterGrade provided');
+
+		assert.throws(() => {
+			grade.setScore(['A']);
+		}, 'Invalid letterGrade provided');
+
+		assert.throws(() => {
+			grade.setScore('D');
+		}, 'letterGrade must be one of the letterGradeOptions provided');
+	});
+
+	it('is able to store and retrieve an entity associated with the grade', () => {
+		const entity = { some: 'entity' };
+		const grade = new Grade(GradeType.Number, 10, 11, null, null, entity);
+		assert.equal(grade.getEntity(), entity);
+	});
 });
