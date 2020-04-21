@@ -62,18 +62,9 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		try {
 			this._controller = new GradesController(this.href, this.token);
 			await this._requestGrade();
-			this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-success', {
-				composed: true,
-				bubbles: true
-			}));
+			this._emitInitializedSuccess();
 		} catch (e) {
-			this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-error', {
-				composed: true,
-				bubbles: true,
-				detail: {
-					error: e
-				}
-			}));
+			this._emitInitializedError(e);
 		}
 	}
 
@@ -94,6 +85,23 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	}
 
 	/* --- emit events --- */
+
+	_emitInitializedSuccess() {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-success', {
+			composed: true,
+			bubbles: true
+		}));
+	}
+
+	_emitInitializedError(e) {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-initialized-error', {
+			composed: true,
+			bubbles: true,
+			detail: {
+				error: e
+			}
+		}));
+	}
 
 	_emitGradeUpdatedSuccess() {
 		this.dispatchEvent(new CustomEvent('d2l-grade-result-grade-updated-success', {
