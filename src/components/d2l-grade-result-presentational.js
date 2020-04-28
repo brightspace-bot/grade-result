@@ -72,7 +72,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		return this.readOnly;
 	}
 
-	_getNumericScoreComponent() {
+	_renderNumericScoreComponent() {
 		return html`
 			<d2l-grade-result-numeric-score
 				.scoreNumerator=${this.scoreNumerator}
@@ -82,7 +82,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		`;
 	}
 
-	_getLetterScoreComponent() {
+	_renderLetterScoreComponent() {
 		return html`
 			<d2l-grade-result-letter-score
 				.availableOptions=${this.letterGradeOptions}
@@ -92,17 +92,17 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		`;
 	}
 
-	_getScoreComponent() {
+	_renderScoreComponent() {
 		if (this.gradeType === GradeType.Number) {
-			return this._getNumericScoreComponent();
+			return this._renderNumericScoreComponent();
 		} else if (this.gradeType === GradeType.Letter) {
-			return this._getLetterScoreComponent();
+			return this._renderLetterScoreComponent();
 		} else {
 			throw new Error('INVALID GRADE TYPE PROVIDED');
 		}
 	}
 
-	_getManualOverrideButtonComponent() {
+	_renderManualOverrideButtonComponent() {
 		if (this.isGradeAutoCompleted) {
 			let text, icon, onClick;
 
@@ -128,11 +128,11 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		return html``;
 	}
 
-	_getTitle() {
-		if (!this.hideTitle) {
+	_renderTitle() {
+		if (!this.hideTitle && this.labelText) {
 			return html`
 				<span class="d2l-input-label">
-					${this.labelText ? html`${this.labelText}` : html``}
+					${this.labelText}
 				</span>
 			`;
 		}
@@ -156,11 +156,11 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 
 	render() {
 		return html`
-			${this._getTitle()}
+			${this._renderTitle()}
 
 			<div class="d2l-grade-result-presentational-container">
 
-				${this._getScoreComponent()}
+				${this._renderScoreComponent()}
 
 				${this.includeGradeButton ?  html`
 					<d2l-grade-result-icon-button
@@ -182,7 +182,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 
 			</div>
 
-			${this._getManualOverrideButtonComponent()}
+			${this._renderManualOverrideButtonComponent()}
 		`;
 	}
 }
