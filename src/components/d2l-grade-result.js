@@ -1,3 +1,4 @@
+import './d2l-grade-result-presentational.js';
 import { Grade, GradeType } from '../controller/Grade.js';
 import { html, LitElement } from 'lit-element';
 import getLocalizationTranslations from './locale.js';
