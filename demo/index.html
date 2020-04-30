@@ -8,7 +8,68 @@
 			import '@brightspace-ui/core/components/typography/styles.js';
 			import '@brightspace-ui/core/components/typography/typography.js';
 			import '../d2l-grade-result.js';
-			import '../components/d2l-grade-result-presentational.js';
+			import '../src/components/d2l-grade-result-presentational.js';
+			import { html, LitElement } from 'lit-element';
+
+			// SET THE HREF AND TOKEN HERE.
+			const href = 'href';
+			const token = 'token';
+
+			export class ComponentDemo extends LitElement {
+				static get properties() {
+					return {
+						disableAutoSave: { type: Boolean }
+					};
+				}
+
+				constructor() {
+					super();
+					this.disableAutoSave = false;
+				}
+			
+				onInitializedSuccess(e) {
+					console.log('initialized success', e);
+				}
+
+				onInitializedError(e) {
+					console.log('initialized error', e);
+				}
+
+				onGradeUpdatedSuccess(e) {
+					console.log('grade updated success', e);
+				}
+
+				onGradeUpdatedError(e) {
+					console.log('grade updated error', e);
+				}
+
+				onGradeSavedSuccess(e) {
+					console.log('grade saved success', e);
+				}
+
+				onGradeSavedError(e) {
+					console.log('grade saved error', e);
+				}
+
+				render() {
+					return html`
+						<d2l-labs-d2l-grade-result
+							href=${href}
+							token=${token}
+							?disableAutoSave=${this.disableAutoSave}
+							@d2l-grade-result-initialized-success=${this.onInitializedSuccess}
+							@d2l-grade-result-initialized-error=${this.onInitializedError}
+							@d2l-grade-result-grade-updated-success=${this.onGradeUpdatedSuccess}
+							@d2l-grade-result-grade-updated-error=${this.onGradeUpdatedError}
+							@d2l-grade-result-grade-saved-success=${this.onGradeSavedSuccess}
+							@d2l-grade-result-grade-saved-error=${this.onGradeSavedError}
+						></d2l-labs-d2l-grade-result>
+					`;
+				}
+			}
+
+			customElements.define('component-demo', ComponentDemo);
+
 		</script>
 		<title>d2l-grade-result</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,14 +91,25 @@
 			<div class="section">
 				<h2>Top level web component</h2>
 
-				<h6>number grade</h6>
+				<p>Auto saving</p>
 				<d2l-demo-snippet>
-					<d2l-labs-d2l-grade-result href="href" token="abc123"></d2l-labs-d2l-grade-result>
+					<component-demo></component-demo>
 				</d2l-demo-snippet>
 
-				<h6>letter grade</h6>
+				<p>Manual Saving</p>
+
 				<d2l-demo-snippet>
-					<d2l-labs-d2l-grade-result href="href" token="abc123" _gradeType="letter"></d2l-labs-d2l-grade-result>
+					<component-demo id="manual-save" disableAutoSave></component-demo><br/>
+					<script>
+						// eslint-disable-next-line no-unused-vars
+						async function saveGradeManually() {
+							const demo = document.querySelector('#manual-save').shadowRoot.querySelector('d2l-labs-d2l-grade-result');
+							await demo.saveGrade();
+							document.querySelector('#save-results').innerHTML += `<p>Saved at ${new Date().toTimeString()}</p>`;
+						}
+					</script>
+					<button onclick="saveGradeManually()">Save Grade Manually</button>
+					<div id="save-results"></div>
 				</d2l-demo-snippet>
 			</div>
 
@@ -49,7 +121,7 @@
 				<h6>number grade, no icons</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -59,7 +131,7 @@
 				<h6>number grade, icons</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -71,10 +143,10 @@
 				<h6>number grade, icons, tooltips</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
-						scoreDenominator="20"
+						scoreDenominator="0"
 						includeGradeButton
 						includeReportsButton
 						gradeButtonTooltip="Assignment 1 Grade Item Attached"
@@ -85,7 +157,7 @@
 				<h6>letter grade, no icons</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -95,7 +167,7 @@
 				<h6>letter grade, icons</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						includeGradeButton
@@ -106,7 +178,7 @@
 				<h6>letter grade, icons, tooltips</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						includeGradeButton
@@ -125,7 +197,7 @@
 				<h6>number grade, no icons</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -136,7 +208,7 @@
 				<h6>number grade, icons</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -149,7 +221,7 @@
 				<h6>number grade, icons, tooltips</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -164,7 +236,7 @@
 				<h6>letter grade, no icons</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -175,7 +247,7 @@
 				<h6>letter grade, icons</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -188,7 +260,7 @@
 				<h6>letter grade, icons, tooltips</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -209,7 +281,7 @@
 				<h6>number grade, no icons, manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -220,7 +292,7 @@
 				<h6>number grade, icons, manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -233,7 +305,7 @@
 				<h6>number grade, icons, tooltips, manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -248,7 +320,7 @@
 				<h6>letter grade, no icons, manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -259,7 +331,7 @@
 				<h6>letter grade, icons, manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -272,7 +344,7 @@
 				<h6>letter grade, icons, tooltips, manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -287,7 +359,7 @@
 				<h6>number grade, no icons, clear manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -299,7 +371,7 @@
 				<h6>number grade, icons, clear manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -313,7 +385,7 @@
 				<h6>number grade, icons, tooltips, clear manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="number"
+						gradeType="Numeric"
 						labelText="Overall Grade"
 						scoreNumerator="5"
 						scoreDenominator="20"
@@ -330,7 +402,7 @@
 				<h6>letter grade, no icons, clear manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -342,7 +414,7 @@
 				<h6>letter grade, icons, clear manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"
@@ -356,7 +428,7 @@
 				<h6>letter grade, icons, tooltips, clear manual override option</h6>
 				<d2l-demo-snippet>
 					<d2l-labs-d2l-grade-result-presentational
-						gradeType="letter"
+						gradeType="LetterGrade"
 						labelText="Overall Grade"
 						letterGradeOptions='["A", "B", "C"]'
 						selectedLetterGrade="C"

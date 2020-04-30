@@ -59,7 +59,7 @@ export class D2LGradeResultNumericScore extends LitElement {
 					</div>
 
 					<div class="d2l-grade-result-numeric-score-score-text">
-						${this.scoreDenominator ? html`
+						${!isNaN(this.scoreDenominator) ? html`
 							<span class="d2l-body-standard">/ ${this.scoreDenominator}</span>
 						` : html``}
 					</div>

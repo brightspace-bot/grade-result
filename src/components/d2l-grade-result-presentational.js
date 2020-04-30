@@ -4,12 +4,8 @@ import './d2l-grade-result-letter-score.js';
 import '@brightspace-ui/core/components/button/button-subtle.js';
 import { css, html, LitElement } from 'lit-element';
 import getLocalizationTranslations from './locale.js';
+import { GradeType } from '../controller/Grade.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
-
-export const GradeType = {
-	Letter: 'letter',
-	Number: 'number'
-};
 
 export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 	static get properties() {
@@ -26,7 +22,8 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 			reportsButtonTooltip: { type: String },
 			readOnly: { type: Boolean },
 			isGradeAutoCompleted: { type: Boolean },
-			isManualOverrideActive: { type: Boolean }
+			isManualOverrideActive: { type: Boolean },
+			hideTitle: { type: Boolean }
 		};
 	}
 
@@ -51,6 +48,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		this.selectedLetterGrade = '';
 		this.isGradeAutoCompleted = false;
 		this.isManualOverrideActive = false;
+		this.hideTitle = false;
 	}
 
 	_onGradeButtonClick() {
@@ -74,7 +72,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		return this.readOnly;
 	}
 
-	_getNumericScoreComponent() {
+	_renderNumericScoreComponent() {
 		return html`
 			<d2l-grade-result-numeric-score
 				.scoreNumerator=${this.scoreNumerator}
@@ -84,7 +82,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		`;
 	}
 
-	_getLetterScoreComponent() {
+	_renderLetterScoreComponent() {
 		return html`
 			<d2l-grade-result-letter-score
 				.availableOptions=${this.letterGradeOptions}
@@ -94,17 +92,17 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		`;
 	}
 
-	_getScoreComponent() {
+	_renderScoreComponent() {
 		if (this.gradeType === GradeType.Number) {
-			return this._getNumericScoreComponent();
+			return this._renderNumericScoreComponent();
 		} else if (this.gradeType === GradeType.Letter) {
-			return this._getLetterScoreComponent();
+			return this._renderLetterScoreComponent();
 		} else {
 			throw new Error('INVALID GRADE TYPE PROVIDED');
 		}
 	}
 
-	_getManualOverrideButtonComponent() {
+	_renderManualOverrideButtonComponent() {
 		if (this.isGradeAutoCompleted) {
 			let text, icon, onClick;
 
@@ -130,15 +128,27 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		return html``;
 	}
 
+	_renderTitle() {
+		if (!this.hideTitle && this.labelText) {
+			return html`
+				<span class="d2l-input-label">
+					${this.labelText}
+				</span>
+			`;
+		}
+
+		return html``;
+	}
+
 	_onManualOverrideClick() {
-		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-click', {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-click', {
 			composed: true,
 			bubbles: true
 		}));
 	}
 
 	_onManualOverrideClearClick() {
-		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-button-manual-override-clear-click', {
+		this.dispatchEvent(new CustomEvent('d2l-grade-result-manual-override-clear-click', {
 			composed: true,
 			bubbles: true
 		}));
@@ -146,13 +156,11 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 
 	render() {
 		return html`
-			<span class="d2l-input-label">
-				${this.labelText ? html`${this.labelText}` : html``}
-			</span>
+			${this._renderTitle()}
 
 			<div class="d2l-grade-result-presentational-container">
 
-				${this._getScoreComponent()}
+				${this._renderScoreComponent()}
 
 				${this.includeGradeButton ?  html`
 					<d2l-grade-result-icon-button
@@ -174,7 +182,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 
 			</div>
 
-			${this._getManualOverrideButtonComponent()}
+			${this._renderManualOverrideButtonComponent()}
 		`;
 	}
 }

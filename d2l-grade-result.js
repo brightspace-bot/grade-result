@@ -1,1 +1,1 @@
-import './components/d2l-grade-result.js';
+import './src/components/d2l-grade-result.js';

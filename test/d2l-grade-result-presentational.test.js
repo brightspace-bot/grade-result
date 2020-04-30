@@ -1,11 +1,12 @@
 /* eslint-disable prefer-arrow-callback */
 import '../d2l-grade-result.js';
-import '../components/d2l-grade-result-presentational.js';
+import '../src/components/d2l-grade-result-presentational.js';
 import { expect, fixture, html } from '@open-wc/testing';
+import { getGradesButton, getLetterScore, getLetterScoreSelect, getManualOverrideButton, getNumericScore, getNumericScoreInput, getReportsButton } from './utils.js';
 
 const componentManualOverride = html`
 	<d2l-labs-d2l-grade-result-presentational
-		gradeType="number"
+		gradeType="Numeric"
 		labelText="Overall Grade"
 		scoreNumerator="5"
 		scoreDenominator="20"
@@ -19,7 +20,7 @@ const componentManualOverride = html`
 
 const componentManualOverrideClear = html`
 	<d2l-labs-d2l-grade-result-presentational
-		gradeType="number"
+		gradeType="Numeric"
 		labelText="Overall Grade"
 		scoreNumerator="5"
 		scoreDenominator="20"
@@ -34,7 +35,7 @@ const componentManualOverrideClear = html`
 
 const componentNumericScore = html`
 	<d2l-labs-d2l-grade-result-presentational
-		gradeType="number"
+		gradeType="Numeric"
 		labelText="Overall Grade"
 		scoreNumerator="5"
 		scoreDenominator="20"
@@ -43,7 +44,7 @@ const componentNumericScore = html`
 
 const componentLetterScore = html`
 	<d2l-labs-d2l-grade-result-presentational
-		gradeType="letter"
+		gradeType="LetterGrade"
 		labelText="Overall Grade"
 		.letterGradeOptions=${['A', 'B', 'C']}
 		selectedLetterGrade="C"
@@ -52,39 +53,7 @@ const componentLetterScore = html`
 
 const eventTimeoutMS = 10000;
 
-const getGradesButton = (el) => {
-	return el
-		.shadowRoot.querySelector('d2l-grade-result-icon-button')
-		.shadowRoot.querySelector('d2l-button-icon');
-};
-
-const getReportsButton = (el) => {
-	return el
-		.shadowRoot.querySelectorAll('d2l-grade-result-icon-button')[1]
-		.shadowRoot.querySelector('d2l-button-icon');
-};
-
-const getManualOverrideButton = (el) => {
-	return el.shadowRoot.querySelector('d2l-button-subtle');
-};
-
-const getNumericScore = (el) => {
-	return el.shadowRoot.querySelector('d2l-grade-result-numeric-score');
-};
-
-const getNumericScoreInput = (el) => {
-	return getNumericScore(el).shadowRoot.querySelector('d2l-input-text');
-};
-
-const getLetterScore = (el) => {
-	return el.shadowRoot.querySelector('d2l-grade-result-letter-score');
-};
-
-const getLetterScoreSelect = (el) => {
-	return getLetterScore(el).shadowRoot.querySelector('select');
-};
-
-describe('d2l-labs-d2l-grade-result', () => {
+describe('d2l-grade-result-presentational', () => {
 	it('should pass all axe tests', async function() {
 		const el = await fixture(html`<d2l-labs-d2l-grade-result></d2l-labs-d2l-grade-result>`);
 		await expect(el).to.be.accessible();
@@ -115,7 +84,7 @@ describe('d2l-labs-d2l-grade-result', () => {
 	it('click manual override button event', async function() {
 		return new Promise((resolve, reject) => {
 			fixture(componentManualOverride).then(el => {
-				const event = 'd2l-grade-result-manual-override-button-manual-override-click';
+				const event = 'd2l-grade-result-manual-override-click';
 				el.addEventListener(event, resolve);
 				getManualOverrideButton(el).click();
 				setTimeout(() => reject(`timeout waiting for ${event} event`), eventTimeoutMS);
@@ -126,7 +95,7 @@ describe('d2l-labs-d2l-grade-result', () => {
 	it('click manual override clear button event', async function() {
 		return new Promise((resolve, reject) => {
 			fixture(componentManualOverrideClear).then(el => {
-				const event = 'd2l-grade-result-manual-override-button-manual-override-clear-click';
+				const event = 'd2l-grade-result-manual-override-clear-click';
 				el.addEventListener(event, resolve);
 				getManualOverrideButton(el).click();
 				setTimeout(() => reject(`timeout waiting for ${event} event`), eventTimeoutMS);
