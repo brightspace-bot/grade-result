@@ -32,11 +32,11 @@ export class Grade {
 	}
 
 	_parseNumberGrade(score, outOf) {
-		if ((!score && score !== 0) || isNaN(score)) {
+		if (isNaN(score)) {
 			throw new Error('Invalid score provided');
 		}
 
-		if ((!outOf && outOf !== 0) || isNaN(outOf)) {
+		if (isNaN(outOf)) {
 			throw new Error('Invalid outOf provided');
 		}
 
