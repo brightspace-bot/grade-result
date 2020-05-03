@@ -57,15 +57,16 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this._hasUnsavedChanged = false;
 	}
 
-	async firstUpdated() {
-		super.firstUpdated();
-
-		try {
-			this._controller = new GradesController(this.href, this.token);
-			await this._requestGrade();
-			this._emitInitializedSuccess();
-		} catch (e) {
-			this._emitInitializedError(e);
+	async updated(changedProperties) {
+		super.updated();
+		if (changedProperties.has('href')) {
+			try {
+				this._controller = new GradesController(this.href, this.token);
+				await this._requestGrade();
+				this._emitInitializedSuccess();
+			} catch (e) {
+				this._emitInitializedError(e);
+			}
 		}
 	}
 
