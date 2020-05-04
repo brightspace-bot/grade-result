@@ -11,6 +11,9 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 			href: { type: String },
 			token: { type: String },
 			disableAutoSave: { type: Boolean },
+			customManualOverrideText: { type: String },
+			customManualOverrideClearText: { type: String },
+
 			_labelText: { type: String },
 			_readOnly: { type: Boolean },
 			_hideTitle: { type: Boolean },
@@ -38,11 +41,12 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this.href = undefined;
 		this.token = undefined;
 		this.disableAutoSave = false;
+		this.customManualOverrideText = undefined;
+		this.customManualOverrideClearText = undefined;
 
 		this._readOnly = false;
 		this._labelText = '';
 		this._hideTitle = false;
-
 		this._grade = new Grade(GradeType.Number, 0, 0, null, null, null);
 
 		// hard coded as disabled as not yet supported by API
@@ -193,6 +197,8 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 				scoreDenominator=${this._grade.getScoreOutOf()}
 				.letterGradeOptions=${this._grade.getScore()}
 				selectedLetterGrade=${this._grade.getScoreOutOf()}
+				.customManualOverrideText=${this.customManualOverrideText}
+				.customManualOverrideClearText=${this.customManualOverrideClearText}
 
 				gradeButtonTooltip=${this._gradeButtonTooltip}
 				reportsButtonTooltip=${this._reportsButtonTooltip}
