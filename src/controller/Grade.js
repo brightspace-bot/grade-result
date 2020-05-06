@@ -4,6 +4,15 @@ export const GradeType = {
 	Number: 'Numeric'
 };
 
+export const GradeErrors = {
+	INVALID_SCORE_TYPE: 'Invalid scoreType provided',
+	INVALID_SCORE: 'Invalid score provided',
+	INVALID_OUT_OF: 'Invalid outOf provided',
+	INVALID_LETTER_GRADE: 'Invalid letterGrade provided',
+	INVALID_LETTER_GRADE_OPTIONS: 'Invalid letterGradeOptions provided',
+	LETTER_GRADE_NOT_IN_OPTIONS: 'letterGrade must be one of the letterGradeOptions provided'
+};
+
 export class Grade {
 	constructor(scoreType, score, outOf, letterGrade, letterGradeOptions, entity) {
 		this.entity = entity;
@@ -16,7 +25,7 @@ export class Grade {
 	}
 
 	_parseScoreType(scoreType) {
-		const invalidScoreError = new Error('Invalid scoreType given');
+		const invalidScoreError = new Error(GradeErrors.INVALID_SCORE_TYPE);
 
 		if (!scoreType || typeof scoreType !== 'string') {
 			throw invalidScoreError;
@@ -33,11 +42,11 @@ export class Grade {
 
 	_parseNumberGrade(score, outOf) {
 		if ((!score || isNaN(score)) && score !== 0) {
-			throw new Error('Invalid score provided');
+			throw new Error(GradeErrors.INVALID_SCORE);
 		}
 
 		if ((!outOf || isNaN(outOf)) && outOf !== 0) {
-			throw new Error('Invalid outOf provided');
+			throw new Error(GradeErrors.INVALID_OUT_OF);
 		}
 
 		if (typeof score === 'string') {
@@ -56,15 +65,15 @@ export class Grade {
 
 	_parseLetterGrade(letterGrade, letterGradeOptions) {
 		if (!letterGrade || typeof letterGrade !== 'string') {
-			throw new Error('Invalid letterGrade provided');
+			throw new Error(GradeErrors.INVALID_LETTER_GRADE);
 		}
 
 		if (!letterGradeOptions || !Array.isArray(letterGradeOptions) || letterGradeOptions.length === 0) {
-			throw new Error('Invalid letterGradeOptions provided');
+			throw new Error(GradeErrors.INVALID_LETTER_GRADE_OPTIONS);
 		}
 
 		if (!letterGradeOptions.includes(letterGrade)) {
-			throw new Error('letterGrade must be one of the letterGradeOptions provided');
+			throw new Error(GradeErrors.LETTER_GRADE_NOT_IN_OPTIONS);
 		}
 
 		this.score = null;

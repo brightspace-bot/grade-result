@@ -1,5 +1,5 @@
 import '@brightspace-ui/core/components/button/button-icon.js';
-import 'd2l-tooltip/d2l-tooltip.js';
+import '@brightspace-ui/core/components/tooltip/tooltip.js';
 import { html, LitElement } from 'lit-element';
 import { getUniqueId } from '@brightspace-ui/core/helpers/uniqueId.js';
 
