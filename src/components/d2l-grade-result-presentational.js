@@ -35,6 +35,10 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+				padding-left: 12px;
+			}
+			.d2l-grade-result-presentational-title-container {
+				padding-left: 12px;
 			}
 		`;
 	}
@@ -160,10 +164,11 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 
 	render() {
 		return html`
-			${this._renderTitle()}
+			<div class="d2l-grade-result-presentational-title-container">
+				${this._renderTitle()}
+			</div>
 
 			<div class="d2l-grade-result-presentational-container">
-
 				${this._renderScoreComponent()}
 
 				${this.includeGradeButton ?  html`
