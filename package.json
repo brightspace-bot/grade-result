@@ -36,15 +36,14 @@
     "frau-ci": "^1",
     "karma-sauce-launcher": "^2",
     "lit-analyzer": "^1",
-    "puppeteer": "^1"
+    "puppeteer": "^1",
+    "sinon": "^9.0.2"
   },
   "dependencies": {
     "@brightspace-ui/core": "^1",
     "@webcomponents/webcomponentsjs": "^2",
     "d2l-polymer-siren-behaviors": "github:Brightspace/polymer-siren-behaviors#semver:^1",
-    "d2l-tooltip": "github:BrightspaceUI/tooltip#semver:^3",
     "lit-element": "^2",
-    "sinon": "^9.0.2",
     "siren-sdk": "github:BrightspaceHypermediaComponents/siren-sdk#semver:^1"
   }
 }
