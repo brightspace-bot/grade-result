@@ -77,7 +77,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		if (this.isGradeAutoCompleted && !this.isManualOverrideActive) {
 			return true;
 		}
-		return this.readOnly;
+		return Boolean(this.readOnly);
 	}
 
 	_renderNumericScoreComponent() {
@@ -85,7 +85,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 			<d2l-grade-result-numeric-score
 				.scoreNumerator=${this.scoreNumerator}
 				.scoreDenominator=${this.scoreDenominator}
-				?readOnly=${this._isReadOnly()}
+				.readOnly=${this._isReadOnly()}
 			></d2l-grade-result-numeric-score>
 		`;
 	}
@@ -95,7 +95,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 			<d2l-grade-result-letter-score
 				.availableOptions=${this.letterGradeOptions}
 				.selectedOption=${this.selectedLetterGrade}
-				?readOnly=${this._isReadOnly()}
+				.readOnly=${this._isReadOnly()}
 			></d2l-grade-result-letter-score>
 		`;
 	}
