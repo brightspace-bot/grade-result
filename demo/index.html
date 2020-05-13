@@ -52,6 +52,10 @@
 				}
 
 				render() {
+					console.table([
+						['href', href],
+						['token', token]
+					]);
 					return html`
 						<d2l-labs-d2l-grade-result
 							href=${href}

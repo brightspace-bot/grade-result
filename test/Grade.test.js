@@ -68,9 +68,9 @@ describe('Grade tests', () => {
 
 	describe('throws an error if improper score/outOf are provided for numeric scores', () => {
 		it('score as null', () => {
-			assert.throws(() => {
+			assert.doesNotThrow(() => {
 				new Grade(GradeType.Number, null, 10, null, null);
-			}, GradeErrors.INVALID_SCORE);
+			});
 		});
 
 		it('score as string', () => {
@@ -107,9 +107,9 @@ describe('Grade tests', () => {
 
 	describe('throws an error if improper score/outOf are provided for letter scores', () => {
 		it('lettergrade as null', () => {
-			assert.throws(() => {
+			assert.doesNotThrow(() => {
 				new Grade(GradeType.Letter, null, null, null, ['A', 'B', 'C']);
-			}, GradeErrors.INVALID_LETTER_GRADE);
+			});
 		});
 
 		it('lettergrade as number', () => {
@@ -195,9 +195,9 @@ describe('Grade tests', () => {
 		});
 
 		it('throws error for null score', () => {
-			assert.throws(() => {
+			assert.doesNotThrow(() => {
 				grade.setScore(null);
-			}, GradeErrors.INVALID_SCORE);
+			});
 		});
 
 		it('throws error for string score', () => {
@@ -224,9 +224,9 @@ describe('Grade tests', () => {
 		});
 
 		it('throws error for null score', () => {
-			assert.throws(() => {
+			assert.doesNotThrow(() => {
 				grade.setScore(null);
-			}, GradeErrors.INVALID_LETTER_GRADE);
+			});
 		});
 
 		it('throws error for undefined score', () => {
@@ -259,5 +259,19 @@ describe('Grade tests', () => {
 		const entity = { some: 'entity' };
 		const grade = new Grade(GradeType.Number, 10, 11, null, null, entity);
 		assert.equal(grade.getEntity(), entity);
+	});
+
+	describe('can handle when scores have not yet been set', () => {
+		it('can handle score as null', () => {
+			assert.doesNotThrow(() => {
+				new Grade(GradeType.Number, null, 10, null, null);
+			});
+		});
+
+		it('can handle letterGrade as null', () => {
+			assert.doesNotThrow(() => {
+				new Grade(GradeType.Letter, null, null, null, ['A', 'B', 'C']);
+			});
+		});
 	});
 });
