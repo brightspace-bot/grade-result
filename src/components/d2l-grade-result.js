@@ -195,8 +195,8 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 				.gradeType=${this._grade.getScoreType()}
 				scoreNumerator=${this._grade.getScore()}
 				scoreDenominator=${this._grade.getScoreOutOf()}
-				.letterGradeOptions=${this._grade.getScore()}
-				selectedLetterGrade=${this._grade.getScoreOutOf()}
+				.letterGradeOptions=${this._grade.getScoreOutOf()}
+				selectedLetterGrade=${this._grade.getScore()}
 				.customManualOverrideText=${this.customManualOverrideText}
 				.customManualOverrideClearText=${this.customManualOverrideClearText}
 
