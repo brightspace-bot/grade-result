@@ -41,7 +41,7 @@ export class Grade {
 	}
 
 	_parseNumberGrade(score, outOf) {
-		if ((!score || isNaN(score)) && score !== 0) {
+		if ((!score || isNaN(score)) && score !== 0 && score !== null) {
 			throw new Error(GradeErrors.INVALID_SCORE);
 		}
 
@@ -64,7 +64,7 @@ export class Grade {
 	}
 
 	_parseLetterGrade(letterGrade, letterGradeOptions) {
-		if (!letterGrade || typeof letterGrade !== 'string') {
+		if ((!letterGrade || typeof letterGrade !== 'string') && letterGrade !== null) {
 			throw new Error(GradeErrors.INVALID_LETTER_GRADE);
 		}
 
@@ -72,7 +72,7 @@ export class Grade {
 			throw new Error(GradeErrors.INVALID_LETTER_GRADE_OPTIONS);
 		}
 
-		if (!letterGradeOptions.includes(letterGrade)) {
+		if (letterGrade !== null && !letterGradeOptions.includes(letterGrade)) {
 			throw new Error(GradeErrors.LETTER_GRADE_NOT_IN_OPTIONS);
 		}
 

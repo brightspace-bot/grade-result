@@ -38,8 +38,8 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	constructor() {
 		super();
 
-		this.href = undefined;
-		this.token = undefined;
+		this._href = undefined;
+		this._token = undefined;
 		this.disableAutoSave = false;
 		this.customManualOverrideText = undefined;
 		this.customManualOverrideClearText = undefined;
@@ -61,11 +61,37 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this._hasUnsavedChanged = false;
 	}
 
-	async firstUpdated() {
-		super.firstUpdated();
+	get href() {
+		return this._href;
+	}
 
+	set href(val) {
+		const oldVal = this.href;
+		if (oldVal !== val) {
+			this._href = val;
+			if (this._href && this._token) {
+				this._initializeController().then(() => this.requestUpdate());
+			}
+		}
+	}
+
+	get token() {
+		return this._token;
+	}
+
+	set token(val) {
+		const oldVal = this.token;
+		if (oldVal !== val) {
+			this._token = val;
+			if (this._href && this._token) {
+				this._initializeController().then(() => this.requestUpdate());
+			}
+		}
+	}
+
+	async _initializeController() {
 		try {
-			this._controller = new GradesController(this.href, this.token);
+			this._controller = new GradesController(this._href, this._token);
 			await this._requestGrade();
 			this._emitInitializedSuccess();
 		} catch (e) {
@@ -189,14 +215,25 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 	}
 
 	render() {
+		const gradeType = this._grade.getScoreType();
+		let score = this._grade.getScore();
+		const scoreOutOf = this._grade.getScoreOutOf();
+
+		// handle when grade is not yet initialized on the server
+		if (gradeType === GradeType.Number && score === null) {
+			score = 0;
+		} else if (gradeType === GradeType.Letter && score === null) {
+			score = '';
+		}
+
 		return html`
 			<d2l-labs-d2l-grade-result-presentational
 				labelText=${this.localize('overallGrade')}
-				.gradeType=${this._grade.getScoreType()}
-				scoreNumerator=${this._grade.getScore()}
-				scoreDenominator=${this._grade.getScoreOutOf()}
-				.letterGradeOptions=${this._grade.getScoreOutOf()}
-				selectedLetterGrade=${this._grade.getScore()}
+				.gradeType=${gradeType}
+				scoreNumerator=${score}
+				scoreDenominator=${scoreOutOf}
+				.letterGradeOptions=${scoreOutOf}
+				selectedLetterGrade=${score}
 				.customManualOverrideText=${this.customManualOverrideText}
 				.customManualOverrideClearText=${this.customManualOverrideClearText}
 
