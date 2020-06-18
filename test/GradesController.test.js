@@ -133,7 +133,7 @@ describe('GradesController', () => {
 		describe('will throw an error if properties are not present', () => {
 			before(() => {
 				sinon.stub(window.D2L.Siren.EntityStore, 'fetch').returns({
-					entity: {}
+					entity: {getSubEntityByRel: () => { return false; }}
 				});
 			});
 
@@ -265,7 +265,7 @@ describe('GradesController', () => {
 					));
 					assert.fail();
 				} catch (e) {
-					assert.equal(e.message, GradesControllerErrors.FIELD_IN_ACTION_NOT_FOUND('SaveGrade', 'score'));
+					assert.equal(e.message, GradesControllerErrors.FIELD_IN_ACTION_NOT_FOUND('SaveGrade', 'value'));
 				}
 			});
 
