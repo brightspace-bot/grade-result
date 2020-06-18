@@ -62,7 +62,13 @@ export class GradesController {
 			throw new Error(GradesControllerErrors.ENTITY_NOT_FOUND_REQUEST_GRADE);
 		}
 		const entity = response.entity;
-		const grade = this._parseGrade(entity);
+		const gradeSubEntity = entity.getSubEntityByRel('grade');
+		let grade;
+		if (!gradeSubEntity) {
+			grade = this._parseGrade(entity);
+		} else {
+			grade = this._parseGrade(gradeSubEntity);
+		}
 		return grade;
 	}
 
@@ -81,7 +87,7 @@ export class GradesController {
 		}
 
 		const actionName = 'SaveGrade';
-		const fieldName = 'score';
+		const fieldName = 'value';
 
 		if (!entity.hasActionByName(actionName)) {
 			throw new Error(GradesControllerErrors.NO_SAVE_GRADE_ACTION);

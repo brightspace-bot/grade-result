@@ -48,7 +48,7 @@ export class D2LGradeResultLetterScore extends LitElement {
 			composed: true,
 			bubbles: true,
 			detail: {
-				option: e.target.value
+				value: e.target.value
 			}
 		}));
 	}
