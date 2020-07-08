@@ -41,7 +41,7 @@ export class Grade {
 	}
 
 	_parseNumberGrade(score, outOf) {
-		if ((!score || isNaN(score)) && score !== 0 && score !== null) {
+		if (score !== '' && (!score || isNaN(score)) && score !== 0 && score !== null) {
 			throw new Error(GradeErrors.INVALID_SCORE);
 		}
 

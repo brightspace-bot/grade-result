@@ -63,12 +63,7 @@ export class GradesController {
 		}
 		const entity = response.entity;
 		const gradeSubEntity = entity.getSubEntityByRel('grade');
-		let grade;
-		if (!gradeSubEntity) {
-			grade = this._parseGrade(entity);
-		} else {
-			grade = this._parseGrade(gradeSubEntity);
-		}
+		const grade = this._parseGrade(gradeSubEntity);
 		return grade;
 	}
 
