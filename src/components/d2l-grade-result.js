@@ -50,8 +50,8 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 		this._grade = new Grade(GradeType.Number, 0, 0, null, null, null);
 
 		// hard coded as disabled as not yet supported by API
-		this._includeGradeButton = false;
-		this._includeReportsButton = false;
+		this._gradeButtonUrl = false;
+		this._reportButtonUrl = false;
 		this._gradeButtonTooltip = undefined;
 		this._reportsButtonTooltip = undefined;
 		this._isGradeAutoCompleted = false;
@@ -239,8 +239,8 @@ export class D2LGradeResult extends LocalizeMixin(LitElement) {
 
 				gradeButtonTooltip=${this._gradeButtonTooltip}
 				reportsButtonTooltip=${this._reportsButtonTooltip}
-				?includeGradeButton=${this._includeGradeButton}
-				?includeReportsButton=${this._includeReportsButton}
+				gradesButtonUrl=${this._gradeButtonUrl}
+				reportsButtonUrl=${this._reportsButtonUrl}
 
 				?isGradeAutoCompleted=${this._isGradeAutoCompleted}
 				?isManualOverrideActive=${this._manuallyOverriddenGrade !== undefined}

@@ -16,8 +16,8 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 			scoreNumerator: { type: Number },
 			letterGradeOptions: { type: Array },
 			selectedLetterGrade: { type: String },
-			includeGradeButton: { type: Boolean },
-			includeReportsButton: { type: Boolean },
+			gradeButtonUrl: { type: String },
+			reportsButtonUrl: { type: String },
 			gradeButtonTooltip: { type: String },
 			reportsButtonTooltip: { type: String },
 			readOnly: { type: Boolean },
@@ -49,8 +49,8 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 	constructor() {
 		super();
 		this.readOnly = false;
-		this.includeGradeButton = false;
-		this.includeReportsButton = false;
+		this.gradeButtonUrl = '';
+		this.reportsButtonUrl = '';
 		this.selectedLetterGrade = '';
 		this.isGradeAutoCompleted = false;
 		this.isManualOverrideActive = false;
@@ -64,6 +64,8 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 			bubbles: true,
 			composed: true,
 		}));
+
+		this._openGradeEvaluationDialog();
 	}
 
 	_onReportsButtonClick() {
@@ -71,6 +73,8 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 			bubbles: true,
 			composed: true,
 		}));
+		
+		this._openGradeStatisticsDialog();
 	}
 
 	_isReadOnly() {
@@ -162,6 +166,80 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 		}));
 	}
 
+	_openGradeEvaluationDialog() {
+
+		const dialogUrl = this.gradeButtonUrl
+
+		if (!dialogUrl) {
+			return;
+		}
+
+		const location = new D2L.LP.Web.Http.UrlLocation(dialogUrl);
+
+		const buttons = [
+			{
+				Key: 'save',
+				Text: this.localize('saveBtn'),
+				ResponseType: 1, // D2L.Dialog.ResponseType.Positive
+				IsPrimary: true,
+				IsEnabled: true
+			},
+			{
+				Text: this.localize('cancelBtn'),
+				ResponseType: 2, // D2L.Dialog.ResponseType.Negative
+				IsPrimary: false,
+				IsEnabled: true
+			}
+		];
+
+		const delayedResult = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.Open(
+			/*               opener: */ document.body,
+			/*             location: */ location,
+			/*          srcCallback: */ 'SrcCallback',
+			/*       resizeCallback: */ '',
+			/*      responseDataKey: */ 'result',
+			/*                width: */ 1920,
+			/*               height: */ 1080,
+			/*            closeText: */ this.localize('editor.btnCloseDialog'),
+			/*              buttons: */ buttons,
+			/* forceTriggerOnCancel: */ false
+		);
+	}
+
+	_openGradeStatisticsDialog() {
+
+		const dialogUrl = this.reportsButtonUrl
+
+		if (!dialogUrl) {
+			return;
+		}
+
+		const location = new D2L.LP.Web.Http.UrlLocation(dialogUrl);
+
+		const buttons = [
+			{
+				Key: 'close',
+				Text: this.localize('closeBtn'),
+				ResponseType: 1, // D2L.Dialog.ResponseType.Positive
+				IsPrimary: true,
+				IsEnabled: true
+			}
+		];
+
+		const delayedResult = D2L.LP.Web.UI.Legacy.MasterPages.Dialog.Open(
+			/*               opener: */ document.body,
+			/*             location: */ location,
+			/*          srcCallback: */ 'SrcCallback',
+			/*       resizeCallback: */ '',
+			/*      responseDataKey: */ 'result',
+			/*                width: */ 1920,
+			/*               height: */ 1080,
+			/*            closeText: */ this.localize('editor.btnCloseDialog'),
+			/*              buttons: */ buttons,
+			/* forceTriggerOnCancel: */ false
+		);
+	}
+
 	render() {
 		return html`
 			<div class="d2l-grade-result-presentational-title-container">
@@ -171,7 +249,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 			<div class="d2l-grade-result-presentational-container">
 				${this._renderScoreComponent()}
 
-				${this.includeGradeButton ?  html`
+				${this.gradeButtonUrl ?  html`
 					<d2l-grade-result-icon-button
 						.tooltipText=${this.gradeButtonTooltip}
 						ariaLabel="Grades"
@@ -180,7 +258,7 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 					></d2l-grade-result-icon-button>
 				` : html``}
 				
-				${this.includeReportsButton ? html`
+				${this.reportsButtonUrl ? html`
 					<d2l-grade-result-icon-button
 						.tooltipText=${this.reportsButtonTooltip}
 						ariaLabel="Reports"
