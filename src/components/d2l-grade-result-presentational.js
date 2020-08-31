@@ -37,7 +37,6 @@ export class D2LGradeResultPresentational extends LocalizeMixin(LitElement) {
 				align-items: center;
 			}
 			.d2l-grade-result-presentational-title-container {
-				padding-left: 12px;
 			}
 		`;
 	}
