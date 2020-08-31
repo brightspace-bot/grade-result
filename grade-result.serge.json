@@ -1,7 +1,7 @@
 {
     "name": "gradeResult",
-    "source_dir": "src/lang",
-    "output_file_path": "src/lang/%LANG%.json",
+    "source_dir": "lang",
+    "output_file_path": "lang/%LANG%.json",
     "output_lang_rewrite": [
       "ar-sa ar",
       "da-dk da",
